@@ -35,7 +35,7 @@ public class CustomerController {
 		this.assembler = ass;
 	}
 	
-	@GetMapping("/users")
+	@GetMapping("/customers")
 	public CollectionModel<EntityModel<Customer>> all()
 	{
 		List<EntityModel<Customer>> customers = repo.findAll()
@@ -46,7 +46,7 @@ public class CustomerController {
 		   return CollectionModel.of(customers, linkTo(methodOn(CustomerController.class).all()).withSelfRel());
 	}
 	
-	@PostMapping("/users")
+	@PostMapping("/customers")
     public ResponseEntity<?> newUser(@RequestBody Customer newUser) {
 
         EntityModel<Customer> entityModel = assembler.toModel(repo.save(newUser));
@@ -57,7 +57,7 @@ public class CustomerController {
     }
 
     // Single item
-    @GetMapping("/users/{uid}")
+    @GetMapping("/customers/{uid}")
     public EntityModel<Customer> one(@PathVariable Long uid) {
 
         Customer employee = repo.findById(uid) //
@@ -66,7 +66,7 @@ public class CustomerController {
         return assembler.toModel(employee);
     }
 
-    @PutMapping("/users/{uid}")
+    @PutMapping("/customers/{uid}")
     public ResponseEntity<?> replaceEmployee(@RequestBody Customer newUser, @PathVariable Long uid) {
 
         Customer updatedUser = repo.findById(uid)
@@ -88,7 +88,7 @@ public class CustomerController {
         
     }
 
-    @DeleteMapping("/users/{uid}")
+    @DeleteMapping("/customers/{uid}")
     public ResponseEntity<?> deleteEmployee(@PathVariable Long uid) {
         repo.deleteById(uid);
         return ResponseEntity.noContent().build();
