@@ -9,7 +9,7 @@ import javax.persistence.Id;
 //@Entity
 public class Item {
 
-	private @Id @GeneratedValue String IID;
+	private @Id @GeneratedValue Long IID;
 	private String CID;
 	private String IName;
 	private String Photo;
@@ -33,11 +33,11 @@ public class Item {
 		Stock = stock;
 	}
 
-	public String getIID() {
+	public Long getIID() {
 		return IID;
 	}
 
-	public void setIID(String iID) {
+	public void setIID(Long iID) {
 		IID = iID;
 	}
 
@@ -119,7 +119,7 @@ public class Item {
 
 	@Override
 	public String toString() {
-		return "Item{IID='" + IID + "', CID='" + CID + "', IName='" + IName + "', Photo='" + Photo + "', Description='"
+		return "Item{IID=" + IID + "', CID=" + CID + "', IName='" + IName + "', Photo='" + Photo + "', Description='"
 				+ Description + "', Type='" + Type + "', Price='" + Price + "', Stock='" + Stock + "'}";
 	}
 	

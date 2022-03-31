@@ -99,7 +99,7 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return "Creator{UID='" + UID + "', FullName='" + FullName + "', UserName='" + UserName + "', Password='" + Password
+		return "Creator{UID=" + UID + ", FullName='" + FullName + "', UserName='" + UserName + "', Password='" + Password
 				+ "', DateTimeRegister='" + DateTimeRegister + "', Address='" + Address + "'}";
 
 	}

@@ -47,9 +47,9 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/customers")
-    public ResponseEntity<?> newUser(@RequestBody Customer newUser) {
+    public ResponseEntity<?> newCustomer(@RequestBody Customer newCustomer) {
 
-        EntityModel<Customer> entityModel = assembler.toModel(repo.save(newUser));
+        EntityModel<Customer> entityModel = assembler.toModel(repo.save(newCustomer));
 
         return ResponseEntity 
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) 
@@ -60,36 +60,36 @@ public class CustomerController {
     @GetMapping("/customers/{uid}")
     public EntityModel<Customer> one(@PathVariable Long uid) {
 
-        Customer employee = repo.findById(uid) //
+        Customer customer = repo.findById(uid) //
                 .orElseThrow(() -> new CustomerNotFoundException(uid));
 
-        return assembler.toModel(employee);
+        return assembler.toModel(customer);
     }
 
     @PutMapping("/customers/{uid}")
-    public ResponseEntity<?> replaceEmployee(@RequestBody Customer newUser, @PathVariable Long uid) {
+    public ResponseEntity<?> replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long uid) {
 
-        Customer updatedUser = repo.findById(uid)
-                .map(user -> {
-                    user.setUserName(newUser.getUserName()) ;
-                    user.setAddress(newUser.getAddress());
-                    user.setDateTimeRegister(newUser.getDateTimeRegister());
-                    user.setFullName(newUser.getFullName());
-                    user.setPassword(newUser.getPassword());
-                    return repo.save(user);
+        Customer updatedCustomer = repo.findById(uid)
+                .map(customer -> {
+                    customer.setUserName(newCustomer.getUserName()) ;
+                    customer.setAddress(newCustomer.getAddress());
+                    customer.setDateTimeRegister(newCustomer.getDateTimeRegister());
+                    customer.setFullName(newCustomer.getFullName());
+                    customer.setPassword(newCustomer.getPassword());
+                    return repo.save(customer);
                 })
                 .orElseGet(() -> {
-                    newUser.setUID(uid);
-                    return repo.save(newUser);
+                    newCustomer.setUID(uid);
+                    return repo.save(newCustomer);
                 });
         
-        EntityModel<Customer> entityModel = assembler.toModel(updatedUser);
+        EntityModel<Customer> entityModel = assembler.toModel(updatedCustomer);
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
         
     }
 
     @DeleteMapping("/customers/{uid}")
-    public ResponseEntity<?> deleteEmployee(@PathVariable Long uid) {
+    public ResponseEntity<?> deleteCustomer(@PathVariable Long uid) {
         repo.deleteById(uid);
         return ResponseEntity.noContent().build();
     }

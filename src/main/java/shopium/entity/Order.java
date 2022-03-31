@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 //@Entity
 public class Order {
-	private @Id @GeneratedValue String OID;
+	private @Id @GeneratedValue Long OID;
 	private String UID;
 	private LocalDateTime DateTime;
 	private int Cost;
@@ -25,11 +25,11 @@ public class Order {
 		ItemNum = itemNum;
 	}
 
-	public String getOID() {
+	public Long getOID() {
 		return OID;
 	}
 
-	public void setOID(String oID) {
+	public void setOID(Long oID) {
 		OID = oID;
 	}
 
@@ -85,7 +85,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Creator{OID='" + OID + "', UID='" + UID + "', DateTime='" + DateTime + "', Cost='" + Cost + "', ItemNum='"
+		return "Creator{OID=" + OID + ", UID='" + UID + "', DateTime='" + DateTime + "', Cost='" + Cost + "', ItemNum='"
 				+ ItemNum + "'}";
 	}
 	

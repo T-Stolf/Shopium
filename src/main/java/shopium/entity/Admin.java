@@ -10,7 +10,7 @@ import javax.persistence.Id;
 //@Entity
 public class Admin {
 	
-	private @Id @GeneratedValue String AID;
+	private @Id @GeneratedValue Long AID;
 	private String Fullname;
 	private String Password;
 	private LocalDateTime DateTimeRegister;
@@ -18,19 +18,18 @@ public class Admin {
 	
 	public Admin() {}
 	
-	public Admin(String aID, String fullname, String password, LocalDateTime dateTimeRegister, String address) {
+	public Admin( String fullname, String password, LocalDateTime dateTimeRegister, String address) {
 		super();
-		AID = aID;
 		Fullname = fullname;
 		Password = password;
 		DateTimeRegister = dateTimeRegister;
 		Address = address;
 	}
 	
-	public String getAID() {
+	public Long getAID() {
 		return AID;
 	}
-	public void setAID(String aID) {
+	public void setAID(Long aID) {
 		AID = aID;
 	}
 	public String getFullname() {
@@ -76,7 +75,7 @@ public class Admin {
 	}
 	@Override
 	public String toString() {
-		return "Admin{AID='" + AID + "', Fullname='" + Fullname + "', Password='" + Password + "', DateTimeRegister='"
+		return "Admin{AID=" + AID + ", Fullname='" + Fullname + "', Password='" + Password + "', DateTimeRegister='"
 				+ DateTimeRegister + "', Address='" + Address + "'}";
 	}
 

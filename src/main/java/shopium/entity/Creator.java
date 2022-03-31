@@ -11,7 +11,7 @@ import javax.persistence.Id;
 //@Entity
 public class Creator {
 	
-	private @Id @GeneratedValue String CID;
+	private @Id @GeneratedValue Long CID;
 	private String UserName;
 	private String Password;
 	private ArrayList<String> Items;
@@ -29,10 +29,10 @@ public class Creator {
 		DateTimeRegister = dateTimeRegister;
 		Address = address;
 	}
-	public String getCID() {
+	public Long getCID() {
 		return CID;
 	}
-	public void setCID(String cID) {
+	public void setCID(Long cID) {
 		CID = cID;
 	}
 	public String getUserName() {
@@ -84,7 +84,7 @@ public class Creator {
 	}
 	@Override
 	public String toString() {
-		return "Creator{CID='" + CID + "', UserName='" + UserName + "', Password='" + Password + "', Items='" + Items
+		return "Creator{CID=" + CID + ", UserName='" + UserName + "', Password='" + Password + "', Items='" + Items
 				+ "', DateTimeRegister='" + DateTimeRegister + "', Address='" + Address + "'}";
 	}
 	
