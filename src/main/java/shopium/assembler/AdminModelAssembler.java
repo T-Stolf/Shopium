@@ -16,7 +16,8 @@ public class AdminModelAssembler  implements RepresentationModelAssembler<Admin,
 	public EntityModel<Admin> toModel(Admin admin)
 	{
 		 return EntityModel.of(admin, 
-				 linkTo(methodOn(AdminController.class).one(admin.getAID())).withSelfRel(), linkTo(methodOn(AdminController.class).all()).withRel("admin"));
+				 linkTo(methodOn(AdminController.class).one(admin.getAID())).withSelfRel(), 
+				 linkTo(methodOn(AdminController.class).all()).withRel("admin"));
 	}
 
 
