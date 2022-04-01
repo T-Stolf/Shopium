@@ -67,11 +67,11 @@ public class ItemController {
     }
 
     @PutMapping("/items/{iid}")
-    public ResponseEntity<?> replaceItem(@RequestBody Item newItem, @PathVariable Long uid) {
+    public ResponseEntity<?> replaceItem(@RequestBody Item newItem, @PathVariable Long iid) {
 
-        Item updatedItem = repo.findById(uid)
+        Item updatedItem = repo.findById(iid)
                 .map(item -> {
-                	item.setCID(newItem.getType());
+                	item.setCID(newItem.getCID());
                 	item.setDescription(newItem.getDescription());
                 	item.setIName(newItem.getIName());
                 	item.setPhoto(newItem.getPhoto());
@@ -81,7 +81,7 @@ public class ItemController {
                     return repo.save(item);
                 })
                 .orElseGet(() -> {
-                    newItem.setIID(uid);
+                    newItem.setIID(iid);
                     return repo.save(newItem);
                 });
         
