@@ -51,12 +51,16 @@ angular.module('demo', [])
                     }
                 } else if (item.iid == null) {
                     //create new record
+                    console.log(item);
                     $http.post(baseUrl, item).
                         then(function (response) {
+                            console.log(item);
                             item.iid = response.data.iid;
+                            item.name = response.data.name;
                         });
                 } else {
                     //edit existing record
+                    console.log(item);
                     $http.put(baseUrl + item.iid, item).
                         then(function (response) { });
                 }

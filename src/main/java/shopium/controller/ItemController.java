@@ -73,7 +73,7 @@ public class ItemController {
                 .map(item -> {
                 	item.setCID(newItem.getCID());
                 	item.setDescription(newItem.getDescription());
-                	item.setIName(newItem.getIName());
+                	item.setName(newItem.getName());
                 	item.setPhoto(newItem.getPhoto());
                 	item.setPrice(newItem.getPrice());
                 	item.setStock(newItem.getStock());

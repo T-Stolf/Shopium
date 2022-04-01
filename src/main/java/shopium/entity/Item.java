@@ -11,7 +11,7 @@ public class Item {
 
 	private @Id @GeneratedValue Long IID;
 	private String CID;
-	private String IName;
+	private String name;
 	private String Photo;
 	private String Description;
 	private String Type;
@@ -21,16 +21,16 @@ public class Item {
 	public Item() {
 	}
 
-	public Item(String cID, String iName, String photo, String description, String type, int price,
+	public Item(String cID, String name, String photo, String description, String type, int price,
 			int stock) {
 		super();
-		CID = cID;
-		IName = iName;
-		Photo = photo;
-		Description = description;
-		Type = type;
-		Price = price;
-		Stock = stock;
+		this.CID = cID;
+		this.name = name;
+		this.Photo = photo;
+		this.Description = description;
+		this.Type = type;
+		this.Price = price;
+		this.Stock = stock;
 	}
 
 	public Long getIID() {
@@ -38,7 +38,7 @@ public class Item {
 	}
 
 	public void setIID(Long iID) {
-		IID = iID;
+		this.IID = iID;
 	}
 
 	public String getCID() {
@@ -46,15 +46,15 @@ public class Item {
 	}
 
 	public void setCID(String cID) {
-		CID = cID;
+		this.CID = cID;
 	}
 
-	public String getIName() {
-		return IName;
+	public String getName() {
+		return name;
 	}
 
-	public void setIName(String iName) {
-		IName = iName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPhoto() {
@@ -62,7 +62,7 @@ public class Item {
 	}
 
 	public void setPhoto(String photo) {
-		Photo = photo;
+		this.Photo = photo;
 	}
 
 	public String getDescription() {
@@ -70,7 +70,7 @@ public class Item {
 	}
 
 	public void setDescription(String description) {
-		Description = description;
+		this.Description = description;
 	}
 
 	public String getType() {
@@ -78,7 +78,7 @@ public class Item {
 	}
 
 	public void setType(String type) {
-		Type = type;
+		this.Type = type;
 	}
 
 	public int getPrice() {
@@ -86,7 +86,7 @@ public class Item {
 	}
 
 	public void setPrice(int price) {
-		Price = price;
+		this.Price = price;
 	}
 
 	public int getStock() {
@@ -94,12 +94,12 @@ public class Item {
 	}
 
 	public void setStock(int stock) {
-		Stock = stock;
+		this.Stock = stock;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(CID, Description, IID, IName, Photo, Price, Stock, Type);
+		return Objects.hash(CID, Description, IID, name, Photo, Price, Stock, Type);
 	}
 
 	@Override
@@ -112,14 +112,14 @@ public class Item {
 			return false;
 		Item other = (Item) obj;
 		return Objects.equals(CID, other.CID) && Objects.equals(Description, other.Description)
-				&& Objects.equals(IID, other.IID) && Objects.equals(IName, other.IName)
+				&& Objects.equals(IID, other.IID) && Objects.equals(name, other.name)
 				&& Objects.equals(Photo, other.Photo) && Price == other.Price && Stock == other.Stock
 				&& Objects.equals(Type, other.Type);
 	}
 
 	@Override
 	public String toString() {
-		return "Item{IID=" + IID + "', CID=" + CID + "', IName='" + IName + "', Photo='" + Photo + "', Description='"
+		return "Item{IID=" + IID + "', CID=" + CID + "', Nname'" + name + "', Photo='" + Photo + "', Description='"
 				+ Description + "', Type='" + Type + "', Price='" + Price + "', Stock='" + Stock + "'}";
 	}
 	
