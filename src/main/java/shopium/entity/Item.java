@@ -14,21 +14,19 @@ public class Item {
 	private String ItemName;
 	private String Photo;
 	private String Description;
-	private String Type;
 	private int Price;
 	private int Stock;
 	
 	public Item() {
 	}
 
-	public Item(Long cID, String iName, String photo, String description, String type, int price,
+	public Item(Long userID, String iName, String photo, String description, int price,
 			int stock) {
 		super();
-		UserID = cID;
+		UserID = userID;
 		ItemName = iName;
 		Photo = photo;
 		Description = description;
-		Type = type;
 		Price = price;
 		Stock = stock;
 	}
@@ -37,24 +35,24 @@ public class Item {
 		return ItemID;
 	}
 
-	public void setItemID(Long iID) {
-		ItemID = iID;
+	public void setItemID(Long itemID) {
+		ItemID = itemID;
 	}
 
 	public Long getUserID() {
 		return UserID;
 	}
 
-	public void setUserID(Long cID) {
-		UserID = cID;
+	public void setUserID(Long userID) {
+		UserID = userID;
 	}
 
 	public String getItemName() {
 		return ItemName;
 	}
 
-	public void setItemName(String iName) {
-		ItemName = iName;
+	public void setItemName(String itemName) {
+		ItemName = itemName;
 	}
 
 	public String getPhoto() {
@@ -71,14 +69,6 @@ public class Item {
 
 	public void setDescription(String description) {
 		Description = description;
-	}
-
-	public String getType() {
-		return Type;
-	}
-
-	public void setType(String type) {
-		Type = type;
 	}
 
 	public int getPrice() {
@@ -99,7 +89,7 @@ public class Item {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(UserID, Description, ItemID, ItemName, Photo, Price, Stock, Type);
+		return Objects.hash(UserID, Description, ItemID, ItemName, Photo, Price, Stock);
 	}
 
 	@Override
@@ -113,14 +103,13 @@ public class Item {
 		Item other = (Item) obj;
 		return Objects.equals(UserID, other.UserID) && Objects.equals(Description, other.Description)
 				&& Objects.equals(ItemID, other.ItemID) && Objects.equals(ItemName, other.ItemName)
-				&& Objects.equals(Photo, other.Photo) && Price == other.Price && Stock == other.Stock
-				&& Objects.equals(Type, other.Type);
+				&& Objects.equals(Photo, other.Photo) && Price == other.Price && Stock == other.Stock;
 	}
 
 	@Override
 	public String toString() {
 		return "Item{ItemID=" + ItemID + "', UserID=" + UserID + "', ItemName='" + ItemName + "', Photo='" + Photo + "', Description='"
-				+ Description + "', Type='" + Type + "', Price='" + Price + "', Stock='" + Stock + "'}";
+				+ Description + "', Price='" + Price + "', Stock='" + Stock + "'}";
 	}
 	
 	
