@@ -57,23 +57,23 @@ public class ItemController {
     }
 
     // Single item
-    @GetMapping("/items/{iid}")
-    public EntityModel<Item> one(@PathVariable Long iid) {
+    @GetMapping("/items/{id}")
+    public EntityModel<Item> one(@PathVariable Long id) {
 
-        Item item = repo.findById(iid) //
-                .orElseThrow(() -> new ItemNotFoundException(iid));
+        Item item = repo.findById(id) //
+                .orElseThrow(() -> new ItemNotFoundException(id));
 
         return assembler.toModel(item);
     }
 
-    @PutMapping("/items/{iid}")
-    public ResponseEntity<?> replaceItem(@RequestBody Item newItem, @PathVariable Long uid) {
+    @PutMapping("/items/{id}")
+    public ResponseEntity<?> replaceItem(@RequestBody Item newItem, @PathVariable Long id) {
 
-        Item updatedItem = repo.findById(uid)
+        Item updatedItem = repo.findById(id)
                 .map(item -> {
-                	item.setCID(newItem.getType());
+                	item.setUserID(newItem.getUserID());
                 	item.setDescription(newItem.getDescription());
-                	item.setIName(newItem.getIName());
+                	item.setItemName(newItem.getItemName());
                 	item.setPhoto(newItem.getPhoto());
                 	item.setPrice(newItem.getPrice());
                 	item.setStock(newItem.getStock());
@@ -81,7 +81,7 @@ public class ItemController {
                     return repo.save(item);
                 })
                 .orElseGet(() -> {
-                    newItem.setIID(uid);
+                    newItem.setItemID(id);
                     return repo.save(newItem);
                 });
         
@@ -90,9 +90,9 @@ public class ItemController {
         
     }
 
-    @DeleteMapping("/items/{iid}")
-    public ResponseEntity<?> deleteItem(@PathVariable Long iid) {
-        repo.deleteById(iid);
+    @DeleteMapping("/items/{id}")
+    public ResponseEntity<?> deleteItem(@PathVariable Long id) {
+        repo.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 	

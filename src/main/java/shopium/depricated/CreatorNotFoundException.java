@@ -1,4 +1,4 @@
-package shopium.exception;
+package shopium.depricated;
 
 public class CreatorNotFoundException extends RuntimeException{
 	

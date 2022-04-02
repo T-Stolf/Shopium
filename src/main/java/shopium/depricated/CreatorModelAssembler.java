@@ -1,13 +1,10 @@
-package shopium.assembler;
+package shopium.depricated;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
-
-import shopium.controller.CreatorController;
-import shopium.entity.Creator;
 
 @Component
 public class CreatorModelAssembler implements RepresentationModelAssembler<Creator, EntityModel<Creator>> {

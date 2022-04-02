@@ -24,32 +24,31 @@ import shopium.repository.*;
 import shopium.exception.*;
 
 @RestController
-public class AdminController {
+public class OrderItemController {
 
-	private final AdminRepository repo;
-	private AdminModelAssembler assembler;
+	private OrderItemRepository repo;
+	private OrderItemModelAssembler assembler;
 	
-	public AdminController(AdminRepository repository, AdminModelAssembler ass)
+	public OrderItemController(OrderItemRepository repository, OrderItemModelAssembler ass)
 	{
 		this.repo = repository;
 		this.assembler = ass;
 	}
-	
-	@GetMapping("/admins")
-	public CollectionModel<EntityModel<Admin>> all()
+	@GetMapping("/orderitems")
+	public CollectionModel<EntityModel<OrderItem>> all()
 	{
-		List<EntityModel<Admin>> admins = repo.findAll()
+		List<EntityModel<OrderItem>> orderitems = repo.findAll()
 	            .stream()
 	            .map(assembler::toModel)
 	            .collect(Collectors.toList());
 		
-		   return CollectionModel.of(admins, linkTo(methodOn(AdminController.class).all()).withSelfRel());
+		   return CollectionModel.of(orderitems, linkTo(methodOn(OrderItemController.class).all()).withSelfRel());
 	}
 	
-	@PostMapping("/admins")
-	public ResponseEntity<?> newAdmin(@RequestBody Admin newAdmin) {
+	@PostMapping("/orderitems")
+	public ResponseEntity<?> newOrderItem(@RequestBody OrderItem newOrderItem) {
 	
-	    EntityModel<Admin> entityModel = assembler.toModel(repo.save(newAdmin));
+	    EntityModel<OrderItem> entityModel = assembler.toModel(repo.save(newOrderItem));
 	
 	    return ResponseEntity 
 	            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) 
@@ -57,39 +56,37 @@ public class AdminController {
 	}
 	
 	// Single item
-	@GetMapping("/admins/{id}")
-	public EntityModel<Admin> one(@PathVariable Long id) {
+	@GetMapping("/orderitems/{id}")
+	public EntityModel<OrderItem> one(@PathVariable Long id) {
 	
-	    Admin admin = repo.findById(id) //
-	            .orElseThrow(() -> new AdminNotFoundException(id));
+	    OrderItem orderitem = repo.findById(id) //
+	            .orElseThrow(() -> new OrderItemNotFoundException(id));
 	
-	    return assembler.toModel(admin);
+	    return assembler.toModel(orderitem);
 	}
 	
-	@PutMapping("/admin/{id}")
-	public ResponseEntity<?> replaceAdmin(@RequestBody Admin newAdmin, @PathVariable Long id) {
+	@PutMapping("/orderitem/{aid}")
+	public ResponseEntity<?> replaceOrderItem(@RequestBody OrderItem newOrderItem, @PathVariable Long id) {
 	
-	    Admin updatedAdmin = repo.findById(id)
-	            .map(admin -> {
-	            	admin.setAddress(newAdmin.getAddress());
-	            	admin.setDateTimeRegister(newAdmin.getDateTimeRegister());
-	            	admin.setFullname(newAdmin.getFullname());
-	                return repo.save(admin);
+	    OrderItem updatedOrderItem = repo.findById(id)
+	            .map(orderitem -> {
+	            	orderitem.setOrderID(newOrderItem.getOrderID());
+	            	orderitem.setUserID(newOrderItem.getUserID());
+	                return repo.save(orderitem);
 	            })
 	            .orElseGet(() -> {
-	                newAdmin.setAdminID(id);
-	                return repo.save(newAdmin);
+	                newOrderItem.setOrderItemID(id);
+	                return repo.save(newOrderItem);
 	            });
 	    
-	    EntityModel<Admin> entityModel = assembler.toModel(updatedAdmin);
+	    EntityModel<OrderItem> entityModel = assembler.toModel(updatedOrderItem);
 	    return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
 	    
 	}
 	
-	@DeleteMapping("/admins/{id}")
-	public ResponseEntity<?> deleteAdmin(@PathVariable Long id) {
+	@DeleteMapping("/orderitems/{id}")
+	public ResponseEntity<?> deleteOrderItem(@PathVariable Long id) {
 	    repo.deleteById(id);
 	    return ResponseEntity.noContent().build();
 	}
-
 }

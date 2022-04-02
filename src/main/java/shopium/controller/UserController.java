@@ -24,32 +24,32 @@ import shopium.repository.*;
 import shopium.exception.*;
 
 @RestController
-public class AdminController {
+public class UserController {
 
-	private final AdminRepository repo;
-	private AdminModelAssembler assembler;
+	private final UserRepository repo;
+	private UserModelAssembler assembler;
 	
-	public AdminController(AdminRepository repository, AdminModelAssembler ass)
+	public UserController(UserRepository repository, UserModelAssembler ass)
 	{
 		this.repo = repository;
 		this.assembler = ass;
 	}
 	
-	@GetMapping("/admins")
-	public CollectionModel<EntityModel<Admin>> all()
+	@GetMapping("/users")
+	public CollectionModel<EntityModel<User>> all()
 	{
-		List<EntityModel<Admin>> admins = repo.findAll()
+		List<EntityModel<User>> users = repo.findAll()
 	            .stream()
 	            .map(assembler::toModel)
 	            .collect(Collectors.toList());
 		
-		   return CollectionModel.of(admins, linkTo(methodOn(AdminController.class).all()).withSelfRel());
+		   return CollectionModel.of(users, linkTo(methodOn(UserController.class).all()).withSelfRel());
 	}
 	
-	@PostMapping("/admins")
-	public ResponseEntity<?> newAdmin(@RequestBody Admin newAdmin) {
+	@PostMapping("/users")
+	public ResponseEntity<?> newUser(@RequestBody User newUser) {
 	
-	    EntityModel<Admin> entityModel = assembler.toModel(repo.save(newAdmin));
+	    EntityModel<User> entityModel = assembler.toModel(repo.save(newUser));
 	
 	    return ResponseEntity 
 	            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) 
@@ -57,39 +57,41 @@ public class AdminController {
 	}
 	
 	// Single item
-	@GetMapping("/admins/{id}")
-	public EntityModel<Admin> one(@PathVariable Long id) {
+	@GetMapping("/users/{id}")
+	public EntityModel<User> one(@PathVariable Long id) {
 	
-	    Admin admin = repo.findById(id) //
-	            .orElseThrow(() -> new AdminNotFoundException(id));
+	    User user = repo.findById(id) //
+	            .orElseThrow(() -> new UserNotFoundException(id));
 	
-	    return assembler.toModel(admin);
+	    return assembler.toModel(user);
 	}
 	
-	@PutMapping("/admin/{id}")
-	public ResponseEntity<?> replaceAdmin(@RequestBody Admin newAdmin, @PathVariable Long id) {
+	@PutMapping("/user/{id}")
+	public ResponseEntity<?> replaceUser(@RequestBody User newUser, @PathVariable Long id) {
 	
-	    Admin updatedAdmin = repo.findById(id)
-	            .map(admin -> {
-	            	admin.setAddress(newAdmin.getAddress());
-	            	admin.setDateTimeRegister(newAdmin.getDateTimeRegister());
-	            	admin.setFullname(newAdmin.getFullname());
-	                return repo.save(admin);
+	    User updatedUser = repo.findById(id)
+	            .map(user -> {
+	            	user.setAddress(newUser.getAddress());
+	            	user.setDateTimeRegister(newUser.getDateTimeRegister());
+	            	user.setFullName(newUser.getFullName());
+	            	user.setUserName(newUser.getUserName());
+	                return repo.save(user);
 	            })
 	            .orElseGet(() -> {
-	                newAdmin.setAdminID(id);
-	                return repo.save(newAdmin);
+	                newUser.setUserID(id);
+	                return repo.save(newUser);
 	            });
 	    
-	    EntityModel<Admin> entityModel = assembler.toModel(updatedAdmin);
+	    EntityModel<User> entityModel = assembler.toModel(updatedUser);
 	    return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
 	    
 	}
 	
-	@DeleteMapping("/admins/{id}")
-	public ResponseEntity<?> deleteAdmin(@PathVariable Long id) {
+	@DeleteMapping("/users/{id}")
+	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 	    repo.deleteById(id);
 	    return ResponseEntity.noContent().build();
 	}
 
 }
+

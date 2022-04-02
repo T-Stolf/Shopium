@@ -1,4 +1,4 @@
-package shopium.entity;
+package shopium.depricated;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-//@Entity
+@Entity
 public class Creator {
 	
 	private @Id @GeneratedValue Long CID;
@@ -17,6 +17,7 @@ public class Creator {
 	private ArrayList<String> Items;
 	private LocalDateTime DateTimeRegister;
 	private String Address;
+	
 	public Creator() {
 		super();
 	}

@@ -3,10 +3,9 @@ package shopium.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import shopium.entity.Customer;
+import shopium.entity.User;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Long>
-{
+public interface UserRepository extends JpaRepository<User, Long> {
 
 }

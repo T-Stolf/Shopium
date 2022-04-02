@@ -9,6 +9,10 @@ import java.util.stream.Collectors;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.mediatype.problem.Problem;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,49 +51,50 @@ public class OrderController {
 	}
 	
 	@PostMapping("/orders")
-    public ResponseEntity<?> newOrder(@RequestBody Order newOrder) {
+    public ResponseEntity<?> newOrder(@RequestBody Order order) {
 
-        EntityModel<Order> entityModel = assembler.toModel(repo.save(newOrder));
+		order.setStatus(Status.IN_PROGRESS);
+		Order newOrder = repo.save(order);
 
         return ResponseEntity 
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) 
-                .body(entityModel);
+                .created(linkTo(methodOn(OrderController.class).one(newOrder.getOrderID())).toUri()) //
+                .body(assembler.toModel(newOrder));
     }
 
     // Single item
-    @GetMapping("/orders/{oid}")
-    public EntityModel<Order> one(@PathVariable Long oid) {
+    @GetMapping("/orders/{id}")
+    public EntityModel<Order> one(@PathVariable Long id) {
 
-        Order order = repo.findById(oid) //
-                .orElseThrow(() -> new OrderNotFoundException(oid));
+        Order order = repo.findById(id) //
+                .orElseThrow(() -> new OrderNotFoundException(id));
 
         return assembler.toModel(order);
     }
 
-    @PutMapping("/orders/{oid}")
-    public ResponseEntity<?> replaceOrder(@RequestBody Order newOrder, @PathVariable Long oid) {
+    @PutMapping("/orders/{id}/complete")
+    public ResponseEntity<?> completeOrder(@RequestBody Order newOrder, @PathVariable Long id) {
 
-        Order updatedOrder = repo.findById(oid)
-                .map(order-> {
-                	order.setCost(newOrder.getCost());
-                	order.setDateTime(newOrder.getDateTime());
-                	order.setItemNum(newOrder.getItemNum());
-                	order.setUID(newOrder.getUID());
-                    return repo.save(order);
-                })
-                .orElseGet(() -> {
-                    newOrder.setOID(oid);
-                    return repo.save(newOrder);
-                });
-        
-        EntityModel<Order> entityModel = assembler.toModel(updatedOrder);
-        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
-        
+    	Order order = repo.findById(id) //
+    	        .orElseThrow(() -> new OrderNotFoundException(id));
+
+    	    if (order.getStatus() == Status.IN_PROGRESS) {
+    	      order.setStatus(Status.COMPLETED);
+    	      return ResponseEntity.ok(assembler.toModel(repo.save(order)));
+    	    }
+
+    	    return ResponseEntity //
+    	        .status(HttpStatus.METHOD_NOT_ALLOWED) //
+    	        .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE) //
+    	        .body(Problem.create() //
+    	            .withTitle("Method not allowed") //
+    	            .withDetail("You can't complete an order that is in the " + order.getStatus() + " status"));
     }
+    
+    
 
-    @DeleteMapping("/orders/{oid}")
-    public ResponseEntity<?> deleteOrder(@PathVariable Long oid) {
-        repo.deleteById(oid);
+    @DeleteMapping("/orders/{id}")
+    public ResponseEntity<?> cancelOrder(@PathVariable Long id) {
+        repo.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 	

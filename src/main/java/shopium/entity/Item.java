@@ -6,12 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-//@Entity
+@Entity
 public class Item {
 
-	private @Id @GeneratedValue Long IID;
-	private String CID;
-	private String IName;
+	private @Id @GeneratedValue Long ItemID;
+	private Long UserID;
+	private String ItemName;
 	private String Photo;
 	private String Description;
 	private String Type;
@@ -21,11 +21,11 @@ public class Item {
 	public Item() {
 	}
 
-	public Item(String cID, String iName, String photo, String description, String type, int price,
+	public Item(Long cID, String iName, String photo, String description, String type, int price,
 			int stock) {
 		super();
-		CID = cID;
-		IName = iName;
+		UserID = cID;
+		ItemName = iName;
 		Photo = photo;
 		Description = description;
 		Type = type;
@@ -33,28 +33,28 @@ public class Item {
 		Stock = stock;
 	}
 
-	public Long getIID() {
-		return IID;
+	public Long getItemID() {
+		return ItemID;
 	}
 
-	public void setIID(Long iID) {
-		IID = iID;
+	public void setItemID(Long iID) {
+		ItemID = iID;
 	}
 
-	public String getCID() {
-		return CID;
+	public Long getUserID() {
+		return UserID;
 	}
 
-	public void setCID(String cID) {
-		CID = cID;
+	public void setUserID(Long cID) {
+		UserID = cID;
 	}
 
-	public String getIName() {
-		return IName;
+	public String getItemName() {
+		return ItemName;
 	}
 
-	public void setIName(String iName) {
-		IName = iName;
+	public void setItemName(String iName) {
+		ItemName = iName;
 	}
 
 	public String getPhoto() {
@@ -99,7 +99,7 @@ public class Item {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(CID, Description, IID, IName, Photo, Price, Stock, Type);
+		return Objects.hash(UserID, Description, ItemID, ItemName, Photo, Price, Stock, Type);
 	}
 
 	@Override
@@ -111,15 +111,15 @@ public class Item {
 		if (getClass() != obj.getClass())
 			return false;
 		Item other = (Item) obj;
-		return Objects.equals(CID, other.CID) && Objects.equals(Description, other.Description)
-				&& Objects.equals(IID, other.IID) && Objects.equals(IName, other.IName)
+		return Objects.equals(UserID, other.UserID) && Objects.equals(Description, other.Description)
+				&& Objects.equals(ItemID, other.ItemID) && Objects.equals(ItemName, other.ItemName)
 				&& Objects.equals(Photo, other.Photo) && Price == other.Price && Stock == other.Stock
 				&& Objects.equals(Type, other.Type);
 	}
 
 	@Override
 	public String toString() {
-		return "Item{IID=" + IID + "', CID=" + CID + "', IName='" + IName + "', Photo='" + Photo + "', Description='"
+		return "Item{ItemID=" + ItemID + "', UserID=" + UserID + "', ItemName='" + ItemName + "', Photo='" + Photo + "', Description='"
 				+ Description + "', Type='" + Type + "', Price='" + Price + "', Stock='" + Stock + "'}";
 	}
 	

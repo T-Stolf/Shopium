@@ -7,59 +7,72 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-//@Entity
+@Entity
 public class Admin {
 	
-	private @Id @GeneratedValue Long AID;
+	private @Id @GeneratedValue Long AdminID;
 	private String Fullname;
-	private String Password;
+	private String UserName;
+//	private String Password;
 	private LocalDateTime DateTimeRegister;
 	private String Address;
 	
 	public Admin() {}
-	
-	public Admin( String fullname, String password, LocalDateTime dateTimeRegister, String address) {
+
+	public Admin(Long adminID, String fullname, String userName, LocalDateTime dateTimeRegister, String address) {
 		super();
+		AdminID = adminID;
 		Fullname = fullname;
-		Password = password;
+		UserName = userName;
 		DateTimeRegister = dateTimeRegister;
 		Address = address;
 	}
-	
-	public Long getAID() {
-		return AID;
+
+	public Long getAdminID() {
+		return AdminID;
 	}
-	public void setAID(Long aID) {
-		AID = aID;
+
+	public void setAdminID(Long adminID) {
+		AdminID = adminID;
 	}
+
 	public String getFullname() {
 		return Fullname;
 	}
+
 	public void setFullname(String fullname) {
 		Fullname = fullname;
 	}
-	public String getPassword() {
-		return Password;
+
+	public String getUserName() {
+		return UserName;
 	}
-	public void setPassword(String password) {
-		Password = password;
+
+	public void setUserName(String userName) {
+		UserName = userName;
 	}
+
 	public LocalDateTime getDateTimeRegister() {
 		return DateTimeRegister;
 	}
+
 	public void setDateTimeRegister(LocalDateTime dateTimeRegister) {
 		DateTimeRegister = dateTimeRegister;
 	}
+
 	public String getAddress() {
 		return Address;
 	}
+
 	public void setAddress(String address) {
 		Address = address;
 	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(AID, Address, DateTimeRegister, Fullname, Password);
+		return Objects.hash(Address, AdminID, DateTimeRegister, Fullname, UserName);
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -69,14 +82,16 @@ public class Admin {
 		if (getClass() != obj.getClass())
 			return false;
 		Admin other = (Admin) obj;
-		return Objects.equals(AID, other.AID) && Objects.equals(Address, other.Address)
+		return Objects.equals(Address, other.Address) && Objects.equals(AdminID, other.AdminID)
 				&& Objects.equals(DateTimeRegister, other.DateTimeRegister) && Objects.equals(Fullname, other.Fullname)
-				&& Objects.equals(Password, other.Password);
-	}
-	@Override
-	public String toString() {
-		return "Admin{AID=" + AID + ", Fullname='" + Fullname + "', Password='" + Password + "', DateTimeRegister='"
-				+ DateTimeRegister + "', Address='" + Address + "'}";
+				&& Objects.equals(UserName, other.UserName);
 	}
 
+	@Override
+	public String toString() {
+		return "Admin {AdminID=" + AdminID + ", Fullname='" + Fullname + "', UserName='" + UserName + "', DateTimeRegister='"
+				+ DateTimeRegister + "', Address='" + Address + "'}";
+	}
+	
+	
 }

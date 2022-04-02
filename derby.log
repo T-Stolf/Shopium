@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Wed Mar 30 19:55:23 EDT 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017f-dd41-5b94-000002764f00 
-on database directory D:\Winter 2022\EECS4413 Z - Building E-Commerce Systems\Group Assignment Repo\Project\Project\mydb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@531d72ca 
+Sat Apr 02 10:10:31 EDT 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017f-ea9c-f98d-0000011ca648 
+on database directory D:\Winter 2022\EECS4413 Z - Building E-Commerce Systems\Group Assignment Repo\Project\Project\mydb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2aae9190 
 Loaded from file:/C:/Users/Thomas/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
 java.vendor=Eclipse Adoptium
 java.runtime.version=17.0.1+12
