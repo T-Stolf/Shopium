@@ -45,16 +45,6 @@ public class OrderItemController {
 		   return CollectionModel.of(orderitems, linkTo(methodOn(OrderItemController.class).all()).withSelfRel());
 	}
 	
-	@PostMapping("/orderitems")
-	public ResponseEntity<?> newOrderItem(@RequestBody OrderItem newOrderItem) {
-	
-	    EntityModel<OrderItem> entityModel = assembler.toModel(repo.save(newOrderItem));
-	
-	    return ResponseEntity 
-	            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) 
-	            .body(entityModel);
-	}
-	
 	// Single item
 	@GetMapping("/orderitems/{id}")
 	public EntityModel<OrderItem> one(@PathVariable Long id) {
@@ -65,7 +55,17 @@ public class OrderItemController {
 	    return assembler.toModel(orderitem);
 	}
 	
-	@PutMapping("/orderitem/{aid}")
+	@PostMapping("/orderitems")
+	public ResponseEntity<?> newOrderItem(@RequestBody OrderItem newOrderItem) {
+	
+	    EntityModel<OrderItem> entityModel = assembler.toModel(repo.save(newOrderItem));
+	
+	    return ResponseEntity 
+	            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) 
+	            .body(entityModel);
+	}
+	
+	@PutMapping("/orderitem/{id}")
 	public ResponseEntity<?> replaceOrderItem(@RequestBody OrderItem newOrderItem, @PathVariable Long id) {
 	
 	    OrderItem updatedOrderItem = repo.findById(id)

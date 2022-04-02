@@ -42,13 +42,23 @@ public class OrderController {
 	@GetMapping("/orders")
 	public CollectionModel<EntityModel<Order>> all()
 	{
-		List<EntityModel<Order>> orders = repo.findAll()
-                .stream()
-                .map(assembler::toModel)
-                .collect(Collectors.toList());
-		
-		   return CollectionModel.of(orders, linkTo(methodOn(OrderController.class).all()).withSelfRel());
-	}
+		List<EntityModel<Order>> orders = repo.findAll().stream() //
+		        .map(assembler::toModel) //
+		        .collect(Collectors.toList());
+
+		    return CollectionModel.of(orders, //
+		        linkTo(methodOn(OrderController.class).all()).withSelfRel());
+		    }
+	
+    // Single item
+    @GetMapping("/orders/{id}")
+    public EntityModel<Order> one(@PathVariable Long id) {
+
+        Order order = repo.findById(id) //
+                .orElseThrow(() -> new OrderNotFoundException(id));
+
+        return assembler.toModel(order);
+    }
 	
 	@PostMapping("/orders")
     public ResponseEntity<?> newOrder(@RequestBody Order order) {
@@ -61,18 +71,8 @@ public class OrderController {
                 .body(assembler.toModel(newOrder));
     }
 
-    // Single item
-    @GetMapping("/orders/{id}")
-    public EntityModel<Order> one(@PathVariable Long id) {
-
-        Order order = repo.findById(id) //
-                .orElseThrow(() -> new OrderNotFoundException(id));
-
-        return assembler.toModel(order);
-    }
-
     @PutMapping("/orders/{id}/complete")
-    public ResponseEntity<?> completeOrder(@RequestBody Order newOrder, @PathVariable Long id) {
+    public ResponseEntity<?> completeOrder(@PathVariable Long id) {
 
     	Order order = repo.findById(id) //
     	        .orElseThrow(() -> new OrderNotFoundException(id));
@@ -92,11 +92,33 @@ public class OrderController {
     
     
 
-    @DeleteMapping("/orders/{id}")
+    @DeleteMapping("/orders/{id}/cancel")
     public ResponseEntity<?> cancelOrder(@PathVariable Long id) {
-        repo.deleteById(id);
-        return ResponseEntity.noContent().build();
+    	
+    	 Order order = repo.findById(id) //
+    		        .orElseThrow(() -> new OrderNotFoundException(id));
+
+    		    if (order.getStatus() == Status.IN_PROGRESS) {
+    		      order.setStatus(Status.CANCELLED);
+    		      return ResponseEntity.ok(assembler.toModel(repo.save(order)));
+    		    }
+
+    		    return ResponseEntity //
+    		        .status(HttpStatus.METHOD_NOT_ALLOWED) //
+    		        .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE) //
+    		        .body(Problem.create() //
+    		            .withTitle("Method not allowed") //
+    		            .withDetail("You can't cancel an order that is in the " + order.getStatus() + " status"));
     }
+    
+    @DeleteMapping("/orders/{id}/delete")
+    public ResponseEntity<?> deleteOrder(@PathVariable Long id)
+    {
+    	   repo.deleteById(id);
+           return ResponseEntity.noContent().build();
+    }
+    
+    
 	
 }
 
