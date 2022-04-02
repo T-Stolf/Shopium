@@ -13,7 +13,7 @@ public class AdminNotFoundAdvice {
 	  @ResponseBody
 	    @ExceptionHandler(AdminNotFoundException.class)
 	    @ResponseStatus(HttpStatus.NOT_FOUND)
-	    public String employeeNotFoundHandler(AdminNotFoundException ex) {
+	    public String AdminNotFoundHandler(AdminNotFoundException ex) {
 	        return ex.getMessage();
 	    }
 

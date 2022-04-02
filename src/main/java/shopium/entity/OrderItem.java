@@ -20,8 +20,6 @@ public class OrderItem {
 		OrderID = orderID;
 	}
 	
-	
-	
 	public Long getOrderItemID() {
 		return OrderItemID;
 	}
