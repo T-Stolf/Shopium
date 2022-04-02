@@ -24,32 +24,32 @@ import shopium.repository.*;
 import shopium.exception.*;
 
 @RestController
-public class UserController {
+public class UserAccountController {
 
-	private final UserRepository repo;
-	private UserModelAssembler assembler;
+	private final UserAccountRepository repo;
+	private UserAccountModelAssembler assembler;
 	
-	public UserController(UserRepository repository, UserModelAssembler ass)
+	public UserAccountController(UserAccountRepository repository, UserAccountModelAssembler ass)
 	{
 		this.repo = repository;
 		this.assembler = ass;
 	}
 	
 	@GetMapping("/users")
-	public CollectionModel<EntityModel<User>> all()
+	public CollectionModel<EntityModel<UserAccount>> all()
 	{
-		List<EntityModel<User>> users = repo.findAll()
+		List<EntityModel<UserAccount>> userAccounts = repo.findAll()
 	            .stream()
 	            .map(assembler::toModel)
 	            .collect(Collectors.toList());
 		
-		   return CollectionModel.of(users, linkTo(methodOn(UserController.class).all()).withSelfRel());
+		   return CollectionModel.of(userAccounts, linkTo(methodOn(UserAccountController.class).all()).withSelfRel());
 	}
 	
 	@PostMapping("/users")
-	public ResponseEntity<?> newUser(@RequestBody User newUser) {
+	public ResponseEntity<?> newUser(@RequestBody UserAccount newUser) {
 	
-	    EntityModel<User> entityModel = assembler.toModel(repo.save(newUser));
+	    EntityModel<UserAccount> entityModel = assembler.toModel(repo.save(newUser));
 	
 	    return ResponseEntity 
 	            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) 
@@ -58,18 +58,18 @@ public class UserController {
 	
 	// Single item
 	@GetMapping("/users/{id}")
-	public EntityModel<User> one(@PathVariable Long id) {
+	public EntityModel<UserAccount> one(@PathVariable Long id) {
 	
-	    User user = repo.findById(id) //
-	            .orElseThrow(() -> new UserNotFoundException(id));
+	    UserAccount userAccount = repo.findById(id) //
+	            .orElseThrow(() -> new UserAcccountNotFoundException(id));
 	
-	    return assembler.toModel(user);
+	    return assembler.toModel(userAccount);
 	}
 	
 	@PutMapping("/user/{id}")
-	public ResponseEntity<?> replaceUser(@RequestBody User newUser, @PathVariable Long id) {
+	public ResponseEntity<?> replaceUser(@RequestBody UserAccount newUser, @PathVariable Long id) {
 	
-	    User updatedUser = repo.findById(id)
+	    UserAccount updatedUser = repo.findById(id)
 	            .map(user -> {
 	            	user.setAddress(newUser.getAddress());
 	            	user.setDateTimeRegister(newUser.getDateTimeRegister());
@@ -82,7 +82,7 @@ public class UserController {
 	                return repo.save(newUser);
 	            });
 	    
-	    EntityModel<User> entityModel = assembler.toModel(updatedUser);
+	    EntityModel<UserAccount> entityModel = assembler.toModel(updatedUser);
 	    return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
 	    
 	}

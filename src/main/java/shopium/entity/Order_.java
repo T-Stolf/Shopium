@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Order {
+public class Order_ {
 
 	private @Id @GeneratedValue Long OrderID;
 	private Long UserID;
@@ -19,9 +19,9 @@ public class Order {
 	private int ItemNum;
 	private Status Status;
 	
-	public Order() {}
+	public Order_() {}
 
-	public Order(Long uID, LocalDateTime dateTime, int cost, int itemNum, Status status) {
+	public Order_(Long uID, LocalDateTime dateTime, int cost, int itemNum, Status status) {
 		super();
 		UserID = uID;
 		DateTime = dateTime;
@@ -90,7 +90,7 @@ public class Order {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Order other = (Order) obj;
+		Order_ other = (Order_) obj;
 		return Cost == other.Cost && Objects.equals(DateTime, other.DateTime) && Objects.equals(ItemNum, other.ItemNum)
 				&& Objects.equals(OrderID, other.OrderID) && Status == other.Status && Objects.equals(UserID, other.UserID);
 	}

@@ -1,19 +1,20 @@
-package shopium.depricated;
+package shopium.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import shopium.exception.*;
+
+import shopium.exception.OrderNotFoundException;
 
 @ControllerAdvice
-public class CreatorNotFoundAdvice {
-	
+public class UserAccountNotFoundAdvice {
+
 	  @ResponseBody
-	    @ExceptionHandler(CreatorNotFoundException.class)
+	    @ExceptionHandler(OrderNotFoundException.class)
 	    @ResponseStatus(HttpStatus.NOT_FOUND)
-	    public String employeeNotFoundHandler(CreatorNotFoundException ex) {
+	    public String UserNotFoundHandler(OrderNotFoundException ex) {
 	        return ex.getMessage();
 	    }
 

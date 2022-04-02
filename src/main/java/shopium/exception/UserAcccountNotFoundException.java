@@ -1,10 +1,10 @@
 package shopium.exception;
 
-public class UserNotFoundException extends RuntimeException{
+public class UserAcccountNotFoundException extends RuntimeException{
 	
 	private static final long serialVersionUID = 1L;
 
-    public UserNotFoundException(Long id) {
+    public UserAcccountNotFoundException(Long id) {
         super("Could not find user " + id);
     }
 

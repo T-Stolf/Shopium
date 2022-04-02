@@ -30,41 +30,41 @@ import shopium.exception.*;
 @RestController
 public class OrderController {
 
-	private final OrderRepository repo;
+	private final OrderRecordRepository repo;
 	private OrderModelAssembler assembler;
 	
-	public OrderController(OrderRepository repository, OrderModelAssembler ass)
+	public OrderController(OrderRecordRepository repository, OrderModelAssembler ass)
 	{
 		this.repo = repository;
 		this.assembler = ass;
 	}
 	
 	@GetMapping("/orders")
-	public CollectionModel<EntityModel<Order>> all()
+	public CollectionModel<EntityModel<Order_>> all()
 	{
-		List<EntityModel<Order>> orders = repo.findAll().stream() //
+		List<EntityModel<Order_>> order_ = repo.findAll().stream() //
 		        .map(assembler::toModel) //
 		        .collect(Collectors.toList());
 
-		    return CollectionModel.of(orders, //
+		    return CollectionModel.of(order_, //
 		        linkTo(methodOn(OrderController.class).all()).withSelfRel());
 		    }
 	
     // Single item
     @GetMapping("/orders/{id}")
-    public EntityModel<Order> one(@PathVariable Long id) {
+    public EntityModel<Order_> one(@PathVariable Long id) {
 
-        Order order = repo.findById(id) //
+        Order_ order_ = repo.findById(id) //
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
-        return assembler.toModel(order);
+        return assembler.toModel(order_);
     }
 	
 	@PostMapping("/orders")
-    public ResponseEntity<?> newOrder(@RequestBody Order order) {
+    public ResponseEntity<?> newOrder(@RequestBody Order_ order_) {
 
-		order.setStatus(Status.IN_PROGRESS);
-		Order newOrder = repo.save(order);
+		order_.setStatus(Status.IN_PROGRESS);
+		Order_ newOrder = repo.save(order_);
 
         return ResponseEntity 
                 .created(linkTo(methodOn(OrderController.class).one(newOrder.getOrderID())).toUri()) //
@@ -74,12 +74,12 @@ public class OrderController {
     @PutMapping("/orders/{id}/complete")
     public ResponseEntity<?> completeOrder(@PathVariable Long id) {
 
-    	Order order = repo.findById(id) //
+    	Order_ order_ = repo.findById(id) //
     	        .orElseThrow(() -> new OrderNotFoundException(id));
 
-    	    if (order.getStatus() == Status.IN_PROGRESS) {
-    	      order.setStatus(Status.COMPLETED);
-    	      return ResponseEntity.ok(assembler.toModel(repo.save(order)));
+    	    if (order_.getStatus() == Status.IN_PROGRESS) {
+    	      order_.setStatus(Status.COMPLETED);
+    	      return ResponseEntity.ok(assembler.toModel(repo.save(order_)));
     	    }
 
     	    return ResponseEntity //
@@ -87,7 +87,7 @@ public class OrderController {
     	        .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE) //
     	        .body(Problem.create() //
     	            .withTitle("Method not allowed") //
-    	            .withDetail("You can't complete an order that is in the " + order.getStatus() + " status"));
+    	            .withDetail("You can't complete an order that is in the " + order_.getStatus() + " status"));
     }
     
     
@@ -95,12 +95,12 @@ public class OrderController {
     @DeleteMapping("/orders/{id}/cancel")
     public ResponseEntity<?> cancelOrder(@PathVariable Long id) {
     	
-    	 Order order = repo.findById(id) //
+    	 Order_ order_ = repo.findById(id) //
     		        .orElseThrow(() -> new OrderNotFoundException(id));
 
-    		    if (order.getStatus() == Status.IN_PROGRESS) {
-    		      order.setStatus(Status.CANCELLED);
-    		      return ResponseEntity.ok(assembler.toModel(repo.save(order)));
+    		    if (order_.getStatus() == Status.IN_PROGRESS) {
+    		      order_.setStatus(Status.CANCELLED);
+    		      return ResponseEntity.ok(assembler.toModel(repo.save(order_)));
     		    }
 
     		    return ResponseEntity //
@@ -108,7 +108,7 @@ public class OrderController {
     		        .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE) //
     		        .body(Problem.create() //
     		            .withTitle("Method not allowed") //
-    		            .withDetail("You can't cancel an order that is in the " + order.getStatus() + " status"));
+    		            .withDetail("You can't cancel an order that is in the " + order_.getStatus() + " status"));
     }
     
     @DeleteMapping("/orders/{id}/delete")

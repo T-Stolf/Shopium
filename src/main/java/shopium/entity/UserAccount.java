@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class User {
+public class UserAccount {
 
 	private @Id @GeneratedValue Long UserID;
 	private String FullName;
@@ -17,9 +17,9 @@ public class User {
 	private String Address;
 	
 	
-	public User() {}
+	public UserAccount() {}
 	
-	public User(Long userID, String fullName, String userName, LocalDateTime dateTimeRegister, String address) {
+	public UserAccount(Long userID, String fullName, String userName, LocalDateTime dateTimeRegister, String address) {
 		super();
 		UserID = userID;
 		FullName = fullName;
@@ -72,7 +72,7 @@ public class User {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		UserAccount other = (UserAccount) obj;
 		return Objects.equals(Address, other.Address) && Objects.equals(DateTimeRegister, other.DateTimeRegister)
 				&& Objects.equals(FullName, other.FullName) && Objects.equals(UserID, other.UserID)
 				&& Objects.equals(UserName, other.UserName);
