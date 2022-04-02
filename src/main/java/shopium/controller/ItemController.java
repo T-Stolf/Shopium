@@ -77,7 +77,6 @@ public class ItemController {
                 	item.setPhoto(newItem.getPhoto());
                 	item.setPrice(newItem.getPrice());
                 	item.setStock(newItem.getStock());
-                	item.setType(newItem.getType());
                     return repo.save(item);
                 })
                 .orElseGet(() -> {
