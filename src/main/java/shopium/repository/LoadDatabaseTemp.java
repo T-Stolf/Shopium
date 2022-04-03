@@ -7,7 +7,7 @@
 //import org.springframework.context.annotation.Configuration;
 //import java.time.LocalDateTime;
 //
-//import shopium.entity.Customer;
+//import shopium.entity.Admin;
 //
 //@Configuration
 //public class LoadDatabaseTemp {
@@ -15,12 +15,10 @@
 //	private static final Logger log = LoggerFactory.getLogger(LoadDatabaseTemp.class);
 //	
 //	  @Bean
-//	  public CommandLineRunner initDatabase(CustomerRepository repo) {
+//	  public CommandLineRunner initDatabase(AdminRepository repo) {
 //	
 //	      return args -> {
-//	          log.info("Preloading " + repo.save(new Customer("Bilbo Baggins", "billy B", "password1",LocalDateTime.now(), "the shire")));
-//	          log.info("Preloading " + repo.save(new Customer("Frodo Baggins", "Fodussy", "1drowssap",LocalDateTime.now(), "the shire")));
-//	          log.info("Preloading " + repo.save(new Customer("Thomas Stolf ", "T$hmoney", "moneyman stan", LocalDateTime.now(), "toronto")));
+//	          log.info("Preloading " + repo.save(new Admin("$2a$12$nWJP8g6CGATY8QkDJQ7YOO2X4qzZXgTTkQhFHAs18QMJ9rRX4D682", "Admin", "Admin", LocalDateTime.now(), "toronto")));
 //	          
 //	          repo.findAll().forEach(user -> log.info("Preloaded " + user));
 //	

@@ -13,6 +13,7 @@ public class UserAccount {
 	private @Id @GeneratedValue Long UserID;
 	private String FullName;
 	private String UserName;
+//	private String Password;
 	private LocalDateTime DateTimeRegister;
 	private String Address;
 	
