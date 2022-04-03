@@ -2,7 +2,7 @@
 <html ng-app="demo">
 
 <head>
-    <title>Customers</title>
+    <title>items</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -19,40 +19,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
     <!-- Controller -->
-    <script src="customer.js"></script>
+    <script src="orderitem.js"></script>
 </head>
 
 <body>
-    <div ng-controller="customer" class="container">
+    <div ng-controller="orderItem" class="container">
         <div class="row navbar">
-            <h1>Database <small>Customer</small></h1>
+            <h1>Database<small>Order Items</small></h1>
         </div>
 
         <div class="row">
             <table class="table">
                 <tr>
-                    <th>ID</th>
-                    <th>Full Name</th>
-                    <th>User Name</th>
-                    <th>Password</th>
-                    <th>DateTimeRegister</th>
-                    <th>Address</th>                                      
+                    <th>OrderItem ID</th>
+                    <th>User ID</th>
+                    <th>OrderID</th>                   
                 </tr>
-                <tr ng-repeat="customer in customers" class="form-group">
-                    <td>{{item.iid}}</td>
-                    <td><input type="text" ng-model="customer.uid" class="form-control" /></td>
-                    <td><input type="text" ng-model="customer.fullName" class="form-control" /></td>
-                    <td><input type="text" ng-model="customer.userName" class="form-control" /></td>
-                    <td><input type="text" ng-model="customer.password" class="form-control" /></td>
-                    <td><input type="text" ng-model="customer.dateTimeRegister" class="form-control" /></td>
-                    <td><input type="text" ng-model="customer.address" class="form-control" /></td>                 
-                    <td><input type="button" value="Delete" ng-click="delete(customer.uid)" class="btn btn-danger" /></td>
+                <tr ng-repeat="orderItem in orderItems" class="form-group">
+                    <td>{{orderItem.orderItemID}}</td>
+                    <td><input type="number" ng-model="orderItem.userID" class="form-control" /></td>
+                    <td><input type="number" ng-model="orderItem.orderID" class="form-control" /></td>                 
+                    <td><input type="button" value="Delete" ng-click="delete(orderItem.orderItemID)" class="btn btn-danger" /></td>
                 </tr>
             </table>
         </div>
         <div class="row">
             <div class="toolbar">
-                <input type="button" value="Add New Customer" ng-click="add()" class="btn btn-primary" />
+                <input type="button" value="Add New item" ng-click="add()" class="btn btn-primary" />
                 <input type="button" value="Save Changes" ng-click="save()" class="btn btn-success" />
             </div>
         </div>

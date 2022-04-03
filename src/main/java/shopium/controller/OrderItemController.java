@@ -34,7 +34,7 @@ public class OrderItemController {
 		this.repo = repository;
 		this.assembler = ass;
 	}
-	@GetMapping("/orderitems")
+	@GetMapping("/orderItems")
 	public CollectionModel<EntityModel<OrderItem>> all()
 	{
 		List<EntityModel<OrderItem>> orderitems = repo.findAll()
@@ -46,7 +46,7 @@ public class OrderItemController {
 	}
 	
 	// Single item
-	@GetMapping("/orderitems/{id}")
+	@GetMapping("/orderItems/{id}")
 	public EntityModel<OrderItem> one(@PathVariable Long id) {
 	
 	    OrderItem orderitem = repo.findById(id) //
@@ -55,7 +55,7 @@ public class OrderItemController {
 	    return assembler.toModel(orderitem);
 	}
 	
-	@PostMapping("/orderitems")
+	@PostMapping("/orderItems")
 	public ResponseEntity<?> newOrderItem(@RequestBody OrderItem newOrderItem) {
 	
 	    EntityModel<OrderItem> entityModel = assembler.toModel(repo.save(newOrderItem));
@@ -65,7 +65,7 @@ public class OrderItemController {
 	            .body(entityModel);
 	}
 	
-	@PutMapping("/orderitem/{id}")
+	@PutMapping("/orderItems/{id}")
 	public ResponseEntity<?> replaceOrderItem(@RequestBody OrderItem newOrderItem, @PathVariable Long id) {
 	
 	    OrderItem updatedOrderItem = repo.findById(id)
@@ -84,7 +84,7 @@ public class OrderItemController {
 	    
 	}
 	
-	@DeleteMapping("/orderitems/{id}")
+	@DeleteMapping("/orderItems/{id}")
 	public ResponseEntity<?> deleteOrderItem(@PathVariable Long id) {
 	    repo.deleteById(id);
 	    return ResponseEntity.noContent().build();

@@ -2,7 +2,7 @@
 <html ng-app="demo">
 
 <head>
-    <title>Orders_</title>
+    <title>UserAccount</title>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -19,43 +19,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
     <!-- Controller -->
-    <script src="order_.js"></script>
+    <script src="useraccount.js"></script>
 </head>
 
 <body>
-    <div ng-controller="order_" class="container">
+    <div ng-controller="userAccount" class="container">
         <div class="row navbar">
-            <h1>Database<small>Orders</small></h1>
+            <h1>Database <small>User Accounts</small></h1>
         </div>
 
         <div class="row">
             <table class="table">
                 <tr>
-                    <th>Order ID</th>
                     <th>User ID</th>
-                    <th>Date&Time</th>
-                    <th>Edit Date/Time</th>
-                    <th>Cost</th>
-                    <th>ItemNum</th>
-                    <th>Status</th>                   
+                    <th>Full Name</th>
+                    <th>User Name</th>                 
+                    <th>DateTimeRegister</th>
+                    <th>EditDateTime</th>
+                    <th>Address</th>                                      
                 </tr>
-                <tr ng-repeat="order_ in orders_" class="form-group">
-                    <td>{{order_.orderID}}</td>
-                    <td><input type="number" ng-model="order_.orderID" class="form-control" /></td>
-                    <td><input type="number" ng-model="order_.userID" class="form-control" /></td>
-                    <td>{{orderItem.dateTime}}</td> 
-					<td><input type="datetime-local" ng-model="orderItem.dateTime" class="form-control" /></td>
-					<td><input type="number" ng-model="order_.cost" class="form-control" /></td>
-					<td><input type="number" ng-model="order_.itemNum" class="form-control" /></td>
-					<td><input type="text" ng-model="order_.status" class="form-control" /></td>
-					                                     
-                    <td><input type="button" value="Delete" ng-click="delete(order_.orderID)" class="btn btn-danger" /></td>
+                <tr ng-repeat="userAccount in userAccounts" class="form-group">
+                    <td>{{userAccount.userID}}</td>                
+                    <td><input type="text" ng-model="userAccount.fullName" class="form-control" /></td>
+                    <td><input type="text" ng-model="userAccount.userName" class="form-control" /></td>                  
+                    <td>{{userAccount.dateTimeRegister}}</td>  
+                    <td><input type="datetime-local" ng-model="userAccount.dateTimeRegister" class="form-control" /></td>                  
+                    <td><input type="text" ng-model="userAccount.address" class="form-control" /></td>                 
+                    <td><input type="button" value="Delete" ng-click="delete(userAccount.userID)" class="btn btn-danger" /></td>
                 </tr>
             </table>
         </div>
         <div class="row">
             <div class="toolbar">
-                <input type="button" value="Add New item" ng-click="add()" class="btn btn-primary" />
+                <input type="button" value="Add New Customer" ng-click="add()" class="btn btn-primary" />
                 <input type="button" value="Save Changes" ng-click="save()" class="btn btn-success" />
             </div>
         </div>
