@@ -1,7 +1,3 @@
-<div *ngFor="let item of items">
-  <div>{{item.iname +"\t"+ item.type +"\t"+ item.category +"\t"+ item.iid +"\t"+ item.description}}</div>
-</div>
-
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
   <div class="row">
@@ -150,98 +146,22 @@
       </ul>
 
       <div class="row">
-        <div class="col-sm-6 col-md-4">
+        <div *ngFor="let item of items" class="col-sm-6 col-md-4">
           <div class="shop__thumb">
             <a href="#">
               <div class="shop-thumb__img">
-                <img src="https://via.placeholder.com/400x400/87CEFA/000000" class="img-responsive" alt="...">
+                <img src="https://i.imgflip.com/5rjgk4.jpg?a457996" class="img-responsive" alt="...">
               </div>
               <h5 class="shop-thumb__title">
-                Product Title
+                Name: {{item.name}} <br />
+                Description: {{item.description}} <br />
+                Type: {{item.type}} <br />
+                Price: {{item.price}} <br />
+                Stock: {{item.stock}}
               </h5>
               <div class="shop-thumb__price">
                 <span class="shop-thumb-price_old">$80.99</span>
                 <span class="shop-thumb-price_new">$59.99</span>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4">
-          <div class="shop__thumb">
-            <a href="#">
-              <div class="shop-thumb__img">
-                <img src="https://via.placeholder.com/400x400/20B2AA/000000" class="img-responsive" alt="...">
-              </div>
-              <h5 class="shop-thumb__title">
-                Product Title
-              </h5>
-              <div class="shop-thumb__price">
-                $59.99
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4">
-          <div class="shop__thumb">
-            <a href="#">
-              <div class="shop-thumb__img">
-                <img src="https://via.placeholder.com/400x400/FFB6C1/000000" class="img-responsive" alt="...">
-              </div>
-              <h5 class="shop-thumb__title">
-                Product Title
-              </h5>
-              <div class="shop-thumb__price">
-                $59.99
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4">
-          <div class="shop__thumb">
-            <a href="#">
-              <div class="shop-thumb__img">
-                <img src="https://via.placeholder.com/400x400/87CEFA/000000" class="img-responsive" alt="...">
-              </div>
-              <h5 class="shop-thumb__title">
-                Product Title
-              </h5>
-              <div class="shop-thumb__price">
-                $59.99
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4">
-          <div class="shop__thumb">
-            <a href="#">
-              <div class="shop-thumb__img">
-                <img src="https://via.placeholder.com/400x400/FFA07A/000000" class="img-responsive" alt="...">
-              </div>
-              <h5 class="shop-thumb__title">
-                Product Title
-              </h5>
-              <div class="shop-thumb__price">
-                $59.99
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <div class="col-sm-6 col-md-4">
-          <div class="shop__thumb">
-            <a href="#">
-              <div class="shop-thumb__img">
-                <img src="https://via.placeholder.com/400x400/48D1CC/000000" class="img-responsive" alt="...">
-              </div>
-              <h5 class="shop-thumb__title">
-                Product Title
-              </h5>
-              <div class="shop-thumb__price">
-                $59.99
               </div>
             </a>
           </div>

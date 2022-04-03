@@ -35,7 +35,7 @@ public class UserAccountController {
 		this.assembler = ass;
 	}
 	
-	@GetMapping("/users")
+	@GetMapping("/userAccounts")
 	public CollectionModel<EntityModel<UserAccount>> all()
 	{
 		List<EntityModel<UserAccount>> userAccounts = repo.findAll()
@@ -46,7 +46,7 @@ public class UserAccountController {
 		   return CollectionModel.of(userAccounts, linkTo(methodOn(UserAccountController.class).all()).withSelfRel());
 	}
 	
-	@PostMapping("/users")
+	@PostMapping("/userAccounts")
 	public ResponseEntity<?> newUser(@RequestBody UserAccount newUser) {
 	
 	    EntityModel<UserAccount> entityModel = assembler.toModel(repo.save(newUser));
@@ -57,7 +57,7 @@ public class UserAccountController {
 	}
 	
 	// Single item
-	@GetMapping("/users/{id}")
+	@GetMapping("/userAccounts/{id}")
 	public EntityModel<UserAccount> one(@PathVariable Long id) {
 	
 	    UserAccount userAccount = repo.findById(id) //
@@ -66,7 +66,7 @@ public class UserAccountController {
 	    return assembler.toModel(userAccount);
 	}
 	
-	@PutMapping("/user/{id}")
+	@PutMapping("/userAccounts/{id}")
 	public ResponseEntity<?> replaceUser(@RequestBody UserAccount newUser, @PathVariable Long id) {
 	
 	    UserAccount updatedUser = repo.findById(id)
@@ -87,7 +87,7 @@ public class UserAccountController {
 	    
 	}
 	
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/userAccounts/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 	    repo.deleteById(id);
 	    return ResponseEntity.noContent().build();

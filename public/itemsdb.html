@@ -25,29 +25,29 @@
 <body>
     <div ng-controller="item" class="container">
         <div class="row navbar">
-            <h1>Database <small>items</small></h1>
+            <h1>Payroll System <small>items</small></h1>
         </div>
 
         <div class="row">
             <table class="table">
                 <tr>
-                    <th>ID</th>
-                    <th>Name</th>
+                    <th>Item ID</th>
+                    <th>User ID</th>
+                    <th>Item Name</th>
                     <th>Photo</th>
-                    <th>Description</th>
-                    <th>Type</th>
+                    <th>Description</th>                 
                     <th>Price</th>
                     <th>Stock</th>                    
                 </tr>
                 <tr ng-repeat="item in items" class="form-group">
-                    <td>{{item.iid}}</td>
-                    <td><input type="text" ng-model="item.name" class="form-control" /></td>
+                    <td>{{item.itemID}}</td>
+                    <td><input type="number" ng-model="item.userID" class="form-control" /></td>
+                    <td><input type="text" ng-model="item.itemName" class="form-control" /></td>
                     <td><input type="text" ng-model="item.photo" class="form-control" /></td>
-                    <td><input type="text" ng-model="item.description" class="form-control" /></td>
-                    <td><input type="text" ng-model="item.type" class="form-control" /></td>
-                    <td><input type="number" ng-model="item.Price" class="form-control" /></td>
-                    <td><input type="number" ng-model="item.Stock" class="form-control" /></td>                 
-                    <td><input type="button" value="Delete" ng-click="delete(item.iid)" class="btn btn-danger" /></td>
+                    <td><input type="text" ng-model="item.description" class="form-control" /></td>                    
+                    <td><input type="number" ng-model="item.price" class="form-control" /></td>
+                    <td><input type="number" ng-model="item.stock" class="form-control" /></td>                 
+                    <td><input type="button" value="Delete" ng-click="delete(item.itemID)" class="btn btn-danger" /></td>
                 </tr>
             </table>
         </div>

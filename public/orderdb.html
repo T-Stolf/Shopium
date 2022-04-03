@@ -38,19 +38,19 @@
                     <th>Cost</th>
                     <th>ItemNum</th>
                     <th>Status</th>                   
-                </tr>
-                <tr ng-repeat="order_ in orders_" class="form-group">
-                    <td>{{order_.orderID}}</td>
-                    <td><input type="number" ng-model="order_.orderID" class="form-control" /></td>
+                </tr>                
+                <tr class="form-group" ng-repeat="order_ in orders_" >
+                    <td>{{order_.orderID}}</td>                   
                     <td><input type="number" ng-model="order_.userID" class="form-control" /></td>
-                    <td>{{orderItem.dateTime}}</td> 
-					<td><input type="datetime-local" ng-model="orderItem.dateTime" class="form-control" /></td>
+                    <td>{{order_.dateTime}}</td> 
+					<td><input type="datetime-local" ng-model="order_.dateTime" class="form-control" /></td>
 					<td><input type="number" ng-model="order_.cost" class="form-control" /></td>
 					<td><input type="number" ng-model="order_.itemNum" class="form-control" /></td>
-					<td><input type="text" ng-model="order_.status" class="form-control" /></td>
-					                                     
-                    <td><input type="button" value="Delete" ng-click="delete(order_.orderID)" class="btn btn-danger" /></td>
-                </tr>
+					<td>{{order_.status}}</td>					                                                  	
+                    <td><input type="button" value="Complete" ng-click="complete(order_.orderID)" class="btn btn-success" /></td>
+                    <td><input type="button" value="Cancel" ng-click="cancel(order_.orderID)" class="btn btn-success" /></td>
+                    <td><input type="button" value="Delete" ng-click="delete(order_.orderID)" class="btn btn-danger" /></td>                
+                </tr>                
             </table>
         </div>
         <div class="row">

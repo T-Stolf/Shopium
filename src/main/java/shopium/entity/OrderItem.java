@@ -12,6 +12,7 @@ public class OrderItem {
 	private @Id @GeneratedValue Long OrderItemID;
 	private Long UserID;
 	private Long OrderID;
+	
 	public OrderItem() {}
 	public OrderItem(Long orderItemID, Long userID, Long orderID) {
 		super();

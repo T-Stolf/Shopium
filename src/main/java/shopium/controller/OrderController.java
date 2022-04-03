@@ -92,7 +92,7 @@ public class OrderController {
     
     
 
-    @DeleteMapping("/orders/{id}/cancel")
+    @PutMapping("/orders/{id}/cancel")
     public ResponseEntity<?> cancelOrder(@PathVariable Long id) {
     	
     	 Order_ order_ = repo.findById(id) //
@@ -111,7 +111,7 @@ public class OrderController {
     		            .withDetail("You can't cancel an order that is in the " + order_.getStatus() + " status"));
     }
     
-    @DeleteMapping("/orders/{id}/delete")
+    @DeleteMapping("/orders/{id}")
     public ResponseEntity<?> deleteOrder(@PathVariable Long id)
     {
     	   repo.deleteById(id);

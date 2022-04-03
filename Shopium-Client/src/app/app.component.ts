@@ -11,7 +11,7 @@ import { Item } from './Item/items';
 })
 export class AppComponent implements OnInit {
   title = 'Shopium-Client';
-  public items: any[] = [];
+  public items: Item[] = [];
 
   constructor(private itemService: ItemService) { }
 
@@ -28,12 +28,10 @@ export class AppComponent implements OnInit {
       const keys = response.headers.keys();
       const mapper = keys.map(key => `${key}:${response.headers.get(key)}`);
 
-      if (response.body != null) {
-        for (const data of response.body._embedded.itemList) {
-          this.items.push(data);
-        }
-
+      for (const data of response?.body._embedded.itemList) {
+        this.items.push(data);
       }
+
     });
   }
 }

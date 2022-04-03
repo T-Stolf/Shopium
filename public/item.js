@@ -7,7 +7,7 @@ angular.module('demo', [])
         $http.get(baseUrl).
             then(function (response) {
                 console.log(response);
-                $scope.items = response.data._embedded.itemList;
+                $scope.items = response.data._embedded?.itemList;
             });
 
         //filter deleted record
@@ -18,22 +18,27 @@ angular.module('demo', [])
         $scope.add = function () {
             var hasNewRecord = false;
             //check if another new record is still pending
+           if($scope.items != null){
             angular.forEach($scope.items, function (item) {
-                if (item.iid == null && !item.deleted)
+                if (item.itemID == null && !item.deleted)
                     hasNewRecord = true;
             });
+            }
             if (!hasNewRecord) {
                 //add a new record
-                $scope.items.push({ iid: null });
+                if( $scope.items == null ){
+                	$scope.items = [];
+                }
+                $scope.items.push({ itemID: null });
             }
         };
 
         $scope.delete = function (id) {
             angular.forEach($scope.items, function (item) {
-                if (item.iid == id) {
+                if (item.itemID == id) {
                     //mark the record as deleted
                     item.deleted = true;
-                    console.log("deleting: " + item.iid);
+                    console.log("deleting: " + item.itemID);
                 }
             });
         };
@@ -41,27 +46,26 @@ angular.module('demo', [])
         $scope.save = function () {
             angular.forEach($scope.items, function (item) {
                 if (item.deleted) {
-                    if (item.iid != null) {
+                    if (item.itemID != null) {
                         //delete record
-                        $http.delete(baseUrl + item.iid).
+                        $http.delete(baseUrl + item.itemID).
                             then(function (response) {
                                 var index = $scope.items.indexOf(item);
                                 $scope.items.splice(index, 1);
                             });
                     }
-                } else if (item.iid == null) {
+                } else if (item.itemID == null) {
                     //create new record
                     console.log(item);
                     $http.post(baseUrl, item).
                         then(function (response) {
                             console.log(item);
-                            item.iid = response.data.iid;
-                            item.name = response.data.name;
+                            item.itemID = response.data.itemID;                          
                         });
                 } else {
                     //edit existing record
                     console.log(item);
-                    $http.put(baseUrl + item.iid, item).
+                    $http.put(baseUrl + item.itemID, item).
                         then(function (response) { });
                 }
             });
