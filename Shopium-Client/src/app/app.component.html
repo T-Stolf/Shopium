@@ -9,7 +9,8 @@
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search products...">
                 <span class="input-group-btn">
-                  <button class="btn btn-primary" type="submit">
+                  <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
+                    data-bs-target="#catalogItems" (click)="getSearchItems('hat')">
                     <i class="fa fa-search"></i>
                   </button>
                 </span>
@@ -146,7 +147,7 @@
       </ul>
 
       <div class="row">
-        <div *ngFor="let item of items" class="col-sm-6 col-md-4">
+        <div id="catalogItems" *ngFor="let item of items" class="col-sm-6 col-md-4">
           <div class="shop__thumb">
             <a href="#">
               <div class="shop-thumb__img">
