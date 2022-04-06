@@ -11,9 +11,9 @@ public class Item {
 
 	private @Id @GeneratedValue Long ItemID;
 	private Long UserID;
-	private String ItemName;
+	private String itemName;
 	private String Photo;
-	private String Description;
+	private String description;
 	private int Price;
 	private int Stock;
 	
@@ -24,9 +24,9 @@ public class Item {
 			int stock) {
 		super();
 		UserID = userID;
-		ItemName = iName;
+		itemName = iName;
 		Photo = photo;
-		Description = description;
+		description = description;
 		Price = price;
 		Stock = stock;
 	}
@@ -48,11 +48,11 @@ public class Item {
 	}
 
 	public String getItemName() {
-		return ItemName;
+		return itemName;
 	}
 
 	public void setItemName(String itemName) {
-		ItemName = itemName;
+		this.itemName = itemName;
 	}
 
 	public String getPhoto() {
@@ -64,11 +64,11 @@ public class Item {
 	}
 
 	public String getDescription() {
-		return Description;
+		return description;
 	}
 
 	public void setDescription(String description) {
-		Description = description;
+		this.description = description;
 	}
 
 	public int getPrice() {
@@ -89,7 +89,7 @@ public class Item {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(UserID, Description, ItemID, ItemName, Photo, Price, Stock);
+		return Objects.hash(UserID, description, ItemID, itemName, Photo, Price, Stock);
 	}
 
 	@Override
@@ -101,15 +101,15 @@ public class Item {
 		if (getClass() != obj.getClass())
 			return false;
 		Item other = (Item) obj;
-		return Objects.equals(UserID, other.UserID) && Objects.equals(Description, other.Description)
-				&& Objects.equals(ItemID, other.ItemID) && Objects.equals(ItemName, other.ItemName)
+		return Objects.equals(UserID, other.UserID) && Objects.equals(description, other.description)
+				&& Objects.equals(ItemID, other.ItemID) && Objects.equals(itemName, other.itemName)
 				&& Objects.equals(Photo, other.Photo) && Price == other.Price && Stock == other.Stock;
 	}
 
 	@Override
 	public String toString() {
-		return "Item{ItemID=" + ItemID + "', UserID=" + UserID + "', ItemName='" + ItemName + "', Photo='" + Photo + "', Description='"
-				+ Description + "', Price='" + Price + "', Stock='" + Stock + "'}";
+		return "Item{ItemID=" + ItemID + "', UserID=" + UserID + "', itemName='" + itemName + "', Photo='" + Photo + "', description='"
+				+ description + "', Price='" + Price + "', Stock='" + Stock + "'}";
 	}
 	
 	

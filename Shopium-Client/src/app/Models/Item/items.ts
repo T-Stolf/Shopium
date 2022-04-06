@@ -5,7 +5,6 @@ export interface Item {
     cid: string;
     name: string;
     description: string;
-    type: string;
     price: number;
     stock: number;
 
