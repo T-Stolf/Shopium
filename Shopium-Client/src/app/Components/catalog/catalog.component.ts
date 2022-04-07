@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { map } from 'rxjs';
-import { ItemService } from '../Models/Item/item.service';
-import { Item } from '../Models/Item/items';
-
+import { ItemService } from '../../Models/Item/item.service';
+import { Item } from '../../Models/Item/items';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-catalog',
@@ -14,17 +14,18 @@ export class CatalogComponent implements OnInit {
 
   title = 'Shopium-Client';
   public items: Item[] = []; // list of items displayed on the catalog
+  public itemID: number = 0;
 
   @Input() searchQuery: string = "bat";
 
-
-  constructor(private itemService: ItemService) { }
+  constructor(private itemService: ItemService,
+    private aroute: ActivatedRoute,
+    private router: Router) { }
 
   // executes on initialization
   ngOnInit() {
     this.getAllItems();
   }
-
 
   //-------------------------------------------------------------------------------------
   // GET ALL ITEMS
@@ -58,13 +59,20 @@ export class CatalogComponent implements OnInit {
     });
   }
 
-
+  //-------------------------------------------------------------------------------------
+  // Navigate to Single Item Page
+  public goToCatalogItemPage(id: number) {
+    console.log(id);
+    this.router.navigate(['/catalog-item'], {
+      queryParams: { data: id }
+    });
+  }
 
   //-------------------------------------------------------------------------------------
   // GET ONE BASED
   public getSingularItem(iid: number): Item | undefined {
     for (const item of this.items) {
-      if (item.iid == iid) {
+      if (item.itemID == iid) {
         return item;
       }
     }

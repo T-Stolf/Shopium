@@ -40,7 +40,7 @@ export class ItemService {
 
     //PUT(update) ONE 
     public putItem(item: Item): Observable<HttpResponse<any>> {
-        return this.http.put<HttpResponse<any>>(`${this.apiServerUrl}/${this.entityUrl}/${item.iid}`, item);
+        return this.http.put<HttpResponse<any>>(`${this.apiServerUrl}/${this.entityUrl}/${item.itemID}`, item);
     }
 
     // DELETE ONE 

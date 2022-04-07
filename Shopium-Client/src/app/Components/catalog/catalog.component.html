@@ -151,12 +151,14 @@
             <div class="row">
                 <div id="catalogItems" *ngFor="let item of items" class="col-sm-6 col-md-4">
                     <div class="shop__thumb">
-                        <a href="#">
+                        <a (click)="goToCatalogItemPage(item.itemID)">
                             <div class="shop-thumb__img">
-                                <img src="https://i.imgflip.com/5rjgk4.jpg?a457996" class="img-responsive" alt="...">
+                                <img src={{item.photo}} class="img-responsive" alt="...">
                             </div>
                             <h5 class="shop-thumb__title">
-                                Name: {{item.name}} <br />
+                                ID: {{item.itemID}}<br />
+                                Seller: {{item.userID}} <br />
+                                Item: {{item.itemName}} <br />
                                 Description: {{item.description}} <br />
                                 Price: {{item.price}} <br />
                                 Stock: {{item.stock}}

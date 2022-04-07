@@ -6,14 +6,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { CatalogItemComponent } from './catalog-item/catalog-item.component';
-import { CatalogComponent } from './catalog/catalog.component';
+import { CatalogItemComponent } from './Components/catalog-item/catalog-item.component';
+import { CatalogComponent } from './Components/catalog/catalog.component';
+import { CartComponent } from './Components/cart/cart.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CatalogComponent,
     CatalogItemComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,

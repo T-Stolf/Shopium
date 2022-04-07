@@ -12,74 +12,74 @@ import javax.persistence.Id;
 @Entity
 public class Order_ {
 
-	private @Id @GeneratedValue Long OrderID;
-	private Long UserID;
-	private LocalDateTime DateTime;
-	private int Cost;
-	private int ItemNum;
-	private Status Status;
+	private @Id @GeneratedValue Long orderID;
+	private Long userID;
+	private LocalDateTime dateTime;
+	private int cost;
+	private int itemNum;
+	private Status status;
 	
 	public Order_() {}
 
 	public Order_(Long uID, LocalDateTime dateTime, int cost, int itemNum, Status status) {
 		super();
-		UserID = uID;
-		DateTime = dateTime;
-		Cost = cost;
-		ItemNum = itemNum;
-		Status = status;
+		userID = uID;
+		dateTime = dateTime;
+		cost = cost;
+		itemNum = itemNum;
+		status = status;
 	}
 
 	public Long getOrderID() {
-		return OrderID;
+		return orderID;
 	}
 
 	public void setOrderID(Long oID) {
-		OrderID = oID;
+		orderID = oID;
 	}
 
 	public Long getUserID() {
-		return UserID;
+		return userID;
 	}
 
 	public void setUserID(Long uID) {
-		UserID = uID;
+		userID = uID;
 	}
 
 	public LocalDateTime getDateTime() {
-		return DateTime;
+		return dateTime;
 	}
 
 	public void setDateTime(LocalDateTime dateTime) {
-		DateTime = dateTime;
+		this.dateTime = dateTime;
 	}
 
 	public int getCost() {
-		return Cost;
+		return cost;
 	}
 
 	public void setCost(int cost) {
-		Cost = cost;
+		this.cost = cost;
 	}
 
 	public int getItemNum() {
-		return ItemNum;
+		return itemNum;
 	}
 
 	public void setItems(int itemNum) {
-		ItemNum = itemNum;
+		this.itemNum = itemNum;
 	}
 	public Status getStatus() {
-		return Status;
+		return status;
 	}
 
 	public void setStatus(Status status) {
-		Status = status;
+		this.status = status;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Cost, DateTime, ItemNum, OrderID, Status, UserID);
+		return Objects.hash(cost, dateTime, itemNum, orderID, status, userID);
 	}
 
 	@Override
@@ -91,14 +91,14 @@ public class Order_ {
 		if (getClass() != obj.getClass())
 			return false;
 		Order_ other = (Order_) obj;
-		return Cost == other.Cost && Objects.equals(DateTime, other.DateTime) && Objects.equals(ItemNum, other.ItemNum)
-				&& Objects.equals(OrderID, other.OrderID) && Status == other.Status && Objects.equals(UserID, other.UserID);
+		return cost == other.cost && Objects.equals(dateTime, other.dateTime) && Objects.equals(itemNum, other.itemNum)
+				&& Objects.equals(orderID, other.orderID) && status == other.status && Objects.equals(userID, other.userID);
 	}
 
 	@Override
 	public String toString() {
-		return "Creator{OrderID=" + OrderID + ", UserID='" + UserID + "', DateTime='" + DateTime + ", 'Status='" + Status + "', Cost='" + Cost + "', ItemNum="
-				+ ItemNum + "}";
+		return "Creator{OrderID=" + orderID + ", UserID='" + userID + "', DateTime='" + dateTime + ", 'Status='" + status + "', Cost='" + cost + "', ItemNum="
+				+ itemNum + "}";
 	}
 	
 }
