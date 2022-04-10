@@ -8,38 +8,35 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import shopium.entity.Admin;
+import shopium.entity.UserAccount;
 
-public class CustomAdminDetails implements UserDetails{
+public class CustomUserDetails implements UserDetails{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Admin admin;
+	private UserAccount user;
 	
-	public CustomAdminDetails(Admin admin) {
+	public CustomUserDetails(UserAccount user) {
 		super();
-		this.admin = admin;
+		this.user = user;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		return Collections.singleton(new SimpleGrantedAuthority("Admin"));
+		return Collections.singleton(new SimpleGrantedAuthority(user.getRole()));
 	}
 
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return admin.getPassword();
+		return user.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return admin.getuserName();
+		return user.getUserName();
 	}
 
 	@Override

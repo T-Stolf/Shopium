@@ -10,15 +10,15 @@ import javax.persistence.Id;
 public class OrderItem {
 	
 	private @Id @GeneratedValue Long OrderItemID;
-	private Long UserID;
-	private Long OrderID;
+	private Long userID;
+	private Long orderID;
 	
 	public OrderItem() {}
 	public OrderItem(Long orderItemID, Long userID, Long orderID) {
 		super();
 		OrderItemID = orderItemID;
-		UserID = userID;
-		OrderID = orderID;
+		this.userID = userID;
+		this.orderID = orderID;
 	}
 	
 	public Long getOrderItemID() {
@@ -28,20 +28,20 @@ public class OrderItem {
 		OrderItemID = orderItemID;
 	}
 	public Long getUserID() {
-		return UserID;
+		return userID;
 	}
 	public void setUserID(Long userID) {
-		UserID = userID;
+		this.userID = userID;
 	}
 	public Long getOrderID() {
-		return OrderID;
+		return this.orderID;
 	}
 	public void setOrderID(Long orderID) {
-		OrderID = orderID;
+		this.orderID = orderID;
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(OrderID, OrderItemID, UserID);
+		return Objects.hash(orderID, OrderItemID, userID);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -52,12 +52,12 @@ public class OrderItem {
 		if (getClass() != obj.getClass())
 			return false;
 		OrderItem other = (OrderItem) obj;
-		return Objects.equals(OrderID, other.OrderID) && Objects.equals(OrderItemID, other.OrderItemID)
-				&& Objects.equals(UserID, other.UserID);
+		return Objects.equals(orderID, other.orderID) && Objects.equals(OrderItemID, other.OrderItemID)
+				&& Objects.equals(userID, other.userID);
 	}
 	@Override
 	public String toString() {
-		return "OrderItems {OrderItemID=" + OrderItemID + ", UserID=" + UserID + ", OrderID=" + OrderID + "}";
+		return "OrderItems {OrderItemID=" + OrderItemID + ", UserID=" + userID + ", OrderID=" + orderID + "}";
 	}
 	
 	

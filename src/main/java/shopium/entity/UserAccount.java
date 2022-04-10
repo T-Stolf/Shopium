@@ -12,23 +12,31 @@ public class UserAccount {
 
 	private @Id @GeneratedValue Long UserID;
 	private String FullName;
-	private String UserName;
-//	private String Password;
+	private String userName;
+	private String Password;
 	private LocalDateTime DateTimeRegister;
 	private String Address;
-	
+	private String Role;
 	
 	public UserAccount() {}
 	
-	public UserAccount(Long userID, String fullName, String userName, LocalDateTime dateTimeRegister, String address) {
+	public UserAccount(String password, String fullName, String userName, LocalDateTime dateTimeRegister, String address, String role) {
 		super();
-		UserID = userID;
 		FullName = fullName;
-		UserName = userName;
+		Password = password;
+		this.userName = userName;
 		DateTimeRegister = dateTimeRegister;
 		Address = address;
+		Role = role;
 	}
-	
+
+	public String getPassword() {
+		return Password;
+	}
+
+	public void setPassword(String password) {
+		Password = password;
+	}
 	public Long getUserID() {
 		return UserID;
 	}
@@ -42,10 +50,10 @@ public class UserAccount {
 		FullName = fullName;
 	}
 	public String getUserName() {
-		return UserName;
+		return userName;
 	}
 	public void setUserName(String userName) {
-		UserName = userName;
+		this.userName = userName;
 	}
 	public LocalDateTime getDateTimeRegister() {
 		return DateTimeRegister;
@@ -60,9 +68,17 @@ public class UserAccount {
 		Address = address;
 	}
 
+	public String getRole() {
+		return Role;
+	}
+
+	public void setRole(String role) {
+		Role = role;
+	}
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(Address, DateTimeRegister, FullName, UserID, UserName);
+		return Objects.hash(Address, DateTimeRegister, FullName, Password, Role, UserID, userName);
 	}
 
 	@Override
@@ -75,14 +91,15 @@ public class UserAccount {
 			return false;
 		UserAccount other = (UserAccount) obj;
 		return Objects.equals(Address, other.Address) && Objects.equals(DateTimeRegister, other.DateTimeRegister)
-				&& Objects.equals(FullName, other.FullName) && Objects.equals(UserID, other.UserID)
-				&& Objects.equals(UserName, other.UserName);
+				&& Objects.equals(FullName, other.FullName) && Objects.equals(Password, other.Password)
+				&& Objects.equals(Role, other.Role) && Objects.equals(UserID, other.UserID)
+				&& Objects.equals(userName, other.userName);
 	}
 
 	@Override
 	public String toString() {
-		return "User{UserID=" + UserID + ", FullName='" + FullName + "', UserName='" + UserName + "', DateTimeRegister='"
-				+ DateTimeRegister + "', Address='" + Address + "'}";
+		return "User{UserID=" + UserID + ", FullName='" + FullName + "', UserName='" + userName + ", Password='" + Password + "', DateTimeRegister='"
+				+ DateTimeRegister + "', Address='" + Address + "', Role='" + Role + "'}";
 	}
 	
 	

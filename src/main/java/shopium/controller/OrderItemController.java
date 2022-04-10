@@ -3,7 +3,9 @@ package shopium.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
@@ -34,7 +36,58 @@ public class OrderItemController {
 		this.repo = repository;
 		this.assembler = ass;
 	}
-	@GetMapping("/orderItems")
+	
+	//UserControls
+	@GetMapping("/myOrderItems/{userID}/{orderID}")
+	public CollectionModel<EntityModel<OrderItem>> allForOrder(@PathVariable Long userID, @PathVariable Long orderID)
+	{
+		
+		List<OrderItem> unverifiedItemList = repo.findByOrderID(orderID);
+		List<OrderItem> verifiedItemList = new ArrayList<OrderItem>();
+		for(OrderItem OI: unverifiedItemList)
+		{
+			if(OI.getUserID().equals(userID))
+			{
+				verifiedItemList.add(OI);
+			}
+		}
+		
+		List<EntityModel<OrderItem>> orderitems = 
+				verifiedItemList
+	            .stream()
+	            .map(assembler::toModel)
+	            .collect(Collectors.toList());
+		
+		   return CollectionModel.of(orderitems, linkTo(methodOn(OrderItemController.class).all()).withSelfRel());
+	}
+	
+	@PostMapping("/myOrderItems/{userID}")
+	public ResponseEntity<?> newItemForOrder(@PathVariable Long userID, @RequestBody OrderItem newOrderItem) {
+	
+		if(newOrderItem.getUserID().equals(userID))
+		{
+	    EntityModel<OrderItem> entityModel = assembler.toModel(repo.save(newOrderItem));
+	    	return ResponseEntity 
+	            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) 
+	            .body(entityModel);
+		}
+		else
+			return null;
+	}
+	
+	
+	@DeleteMapping("/myOrderItems/{orderItemID}")
+	public ResponseEntity<?> deleteItemFromOrder(@PathVariable Long orderItemID) {
+	    
+		repo.deleteById(orderItemID);
+	    return ResponseEntity.noContent().build();
+	}
+
+	
+	
+	
+	//Admin Controls
+	@GetMapping("/admin/orderItems")
 	public CollectionModel<EntityModel<OrderItem>> all()
 	{
 		List<EntityModel<OrderItem>> orderitems = repo.findAll()
@@ -46,7 +99,7 @@ public class OrderItemController {
 	}
 	
 	// Single item
-	@GetMapping("/orderItems/{id}")
+	@GetMapping("/admin/orderItems/{id}")
 	public EntityModel<OrderItem> one(@PathVariable Long id) {
 	
 	    OrderItem orderitem = repo.findById(id) //
@@ -84,7 +137,7 @@ public class OrderItemController {
 	    
 	}
 	
-	@DeleteMapping("/orderItems/{id}")
+	@DeleteMapping("/admin/orderItems/{id}")
 	public ResponseEntity<?> deleteOrderItem(@PathVariable Long id) {
 	    repo.deleteById(id);
 	    return ResponseEntity.noContent().build();

@@ -13,7 +13,7 @@ import javax.persistence.Id;
 public class Order_ {
 
 	private @Id @GeneratedValue Long OrderID;
-	private Long UserID;
+	private Long userID;
 	private LocalDateTime DateTime;
 	private int Cost;
 	private int ItemNum;
@@ -23,7 +23,7 @@ public class Order_ {
 
 	public Order_(Long uID, LocalDateTime dateTime, int cost, int itemNum, Status status) {
 		super();
-		UserID = uID;
+		this.userID = uID;
 		DateTime = dateTime;
 		Cost = cost;
 		ItemNum = itemNum;
@@ -39,11 +39,11 @@ public class Order_ {
 	}
 
 	public Long getUserID() {
-		return UserID;
+		return this.userID;
 	}
 
 	public void setUserID(Long uID) {
-		UserID = uID;
+		this.userID = uID;
 	}
 
 	public LocalDateTime getDateTime() {
@@ -79,7 +79,7 @@ public class Order_ {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Cost, DateTime, ItemNum, OrderID, Status, UserID);
+		return Objects.hash(Cost, DateTime, ItemNum, OrderID, Status, userID);
 	}
 
 	@Override
@@ -92,12 +92,12 @@ public class Order_ {
 			return false;
 		Order_ other = (Order_) obj;
 		return Cost == other.Cost && Objects.equals(DateTime, other.DateTime) && Objects.equals(ItemNum, other.ItemNum)
-				&& Objects.equals(OrderID, other.OrderID) && Status == other.Status && Objects.equals(UserID, other.UserID);
+				&& Objects.equals(OrderID, other.OrderID) && Status == other.Status && Objects.equals(userID, other.userID);
 	}
 
 	@Override
 	public String toString() {
-		return "Creator{OrderID=" + OrderID + ", UserID='" + UserID + "', DateTime='" + DateTime + ", 'Status='" + Status + "', Cost='" + Cost + "', ItemNum="
+		return "Creator{OrderID=" + OrderID + ", UserID='" + userID + "', DateTime='" + DateTime + ", 'Status='" + Status + "', Cost='" + Cost + "', ItemNum="
 				+ ItemNum + "}";
 	}
 	

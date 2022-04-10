@@ -6,24 +6,24 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import shopium.entity.Admin;
-import shopium.repository.AdminRepository;
+import shopium.entity.UserAccount;
+import shopium.repository.UserAccountRepository;
 
 @Service
-public class CustomAdminDetailsService implements UserDetailsService{
+public class CustomUserDetailsService implements UserDetailsService{
 	
 	@Autowired
-	private AdminRepository repo;
+	private UserAccountRepository repo;
 	
 	@Override
 	public UserDetails loadUserByUsername(String UserName) throws UsernameNotFoundException {
 		
-		Admin admin = repo.findByUserName(UserName);
+		UserAccount user = repo.findByUserName(UserName);
 		
-		if(admin == null){
-			throw new UsernameNotFoundException("Admin not found");
+		if(user == null){
+			throw new UsernameNotFoundException("User not found");
 		}
 		
-		return new CustomAdminDetails(admin);
+		return new CustomUserDetails(user);
 	}
 }

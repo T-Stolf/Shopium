@@ -34,8 +34,54 @@ public class UserAccountController {
 		this.repo = repository;
 		this.assembler = ass;
 	}
+	//create user account
 	
-	@GetMapping("/userAccounts")
+	@PostMapping("/Register")
+	public ResponseEntity<?> newUser(@RequestBody UserAccount newUser) {
+	
+		newUser.setRole("User");
+	    EntityModel<UserAccount> entityModel = assembler.toModel(repo.save(newUser));
+	
+	    return ResponseEntity 
+	            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) 
+	            .body(entityModel);
+	}
+	
+	//user account access
+	@GetMapping("/myAccount")
+	public EntityModel<UserAccount> getMyself(@RequestBody Long id) {
+		
+	    UserAccount userAccount = repo.findById(id) //
+	            .orElseThrow(() -> new UserAcccountNotFoundException(id));
+	
+	    return assembler.toModel(userAccount);
+	}
+	
+	
+	@PutMapping("/myAccount")
+	public ResponseEntity<?> replaceMyself(@RequestBody UserAccount newUser, @RequestBody Long id) {
+	
+	    UserAccount updatedUser = repo.findById(id)
+	            .map(user -> {
+	            	user.setAddress(newUser.getAddress());
+	            	user.setDateTimeRegister(newUser.getDateTimeRegister());
+	            	user.setFullName(newUser.getFullName());
+	            	user.setUserName(newUser.getUserName());
+	                return repo.save(user);
+	            })
+	            .orElseGet(() -> {
+	                newUser.setUserID(id);
+	                return repo.save(newUser);
+	            });
+	    
+	    EntityModel<UserAccount> entityModel = assembler.toModel(updatedUser);
+	    return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+	    
+	}
+	
+	
+	//admin account access
+	@GetMapping("/admin/userAccounts")
 	public CollectionModel<EntityModel<UserAccount>> all()
 	{
 		List<EntityModel<UserAccount>> userAccounts = repo.findAll()
@@ -46,8 +92,8 @@ public class UserAccountController {
 		   return CollectionModel.of(userAccounts, linkTo(methodOn(UserAccountController.class).all()).withSelfRel());
 	}
 	
-	@PostMapping("/userAccounts")
-	public ResponseEntity<?> newUser(@RequestBody UserAccount newUser) {
+	@PostMapping("/admin/userAccounts")
+	public ResponseEntity<?> newUserAdmin(@RequestBody UserAccount newUser) {
 	
 	    EntityModel<UserAccount> entityModel = assembler.toModel(repo.save(newUser));
 	
@@ -57,7 +103,7 @@ public class UserAccountController {
 	}
 	
 	// Single item
-	@GetMapping("/userAccounts/{id}")
+	@GetMapping("/admin/userAccounts/{id}")
 	public EntityModel<UserAccount> one(@PathVariable Long id) {
 	
 	    UserAccount userAccount = repo.findById(id) //
@@ -66,7 +112,7 @@ public class UserAccountController {
 	    return assembler.toModel(userAccount);
 	}
 	
-	@PutMapping("/userAccounts/{id}")
+	@PutMapping("/admin/userAccounts/{id}")
 	public ResponseEntity<?> replaceUser(@RequestBody UserAccount newUser, @PathVariable Long id) {
 	
 	    UserAccount updatedUser = repo.findById(id)
@@ -87,7 +133,7 @@ public class UserAccountController {
 	    
 	}
 	
-	@DeleteMapping("/userAccounts/{id}")
+	@DeleteMapping("/admin/userAccounts/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 	    repo.deleteById(id);
 	    return ResponseEntity.noContent().build();
