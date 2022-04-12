@@ -10,10 +10,15 @@ import javax.persistence.Id;
 public class Item {
 
 	private @Id @GeneratedValue Long ItemID;
+<<<<<<< HEAD
 	private Long userID;
 	private String ItemName;
+=======
+	private Long UserID;
+	private String itemName;
+>>>>>>> refs/remotes/origin/SyedBranch
 	private String Photo;
-	private String Description;
+	private String description;
 	private int Price;
 	private int Stock;
 	
@@ -23,10 +28,15 @@ public class Item {
 	public Item(Long userID, String iName, String photo, String description, int price,
 			int stock) {
 		super();
+<<<<<<< HEAD
 		this.userID = userID;
 		ItemName = iName;
+=======
+		UserID = userID;
+		itemName = iName;
+>>>>>>> refs/remotes/origin/SyedBranch
 		Photo = photo;
-		Description = description;
+		description = description;
 		Price = price;
 		Stock = stock;
 	}
@@ -48,11 +58,11 @@ public class Item {
 	}
 
 	public String getItemName() {
-		return ItemName;
+		return itemName;
 	}
 
 	public void setItemName(String itemName) {
-		ItemName = itemName;
+		this.itemName = itemName;
 	}
 
 	public String getPhoto() {
@@ -64,11 +74,11 @@ public class Item {
 	}
 
 	public String getDescription() {
-		return Description;
+		return description;
 	}
 
 	public void setDescription(String description) {
-		Description = description;
+		this.description = description;
 	}
 
 	public int getPrice() {
@@ -89,7 +99,11 @@ public class Item {
 
 	@Override
 	public int hashCode() {
+<<<<<<< HEAD
 		return Objects.hash(userID, Description, ItemID, ItemName, Photo, Price, Stock);
+=======
+		return Objects.hash(UserID, description, ItemID, itemName, Photo, Price, Stock);
+>>>>>>> refs/remotes/origin/SyedBranch
 	}
 
 	@Override
@@ -101,15 +115,25 @@ public class Item {
 		if (getClass() != obj.getClass())
 			return false;
 		Item other = (Item) obj;
+<<<<<<< HEAD
 		return Objects.equals(userID, other.userID) && Objects.equals(Description, other.Description)
 				&& Objects.equals(ItemID, other.ItemID) && Objects.equals(ItemName, other.ItemName)
+=======
+		return Objects.equals(UserID, other.UserID) && Objects.equals(description, other.description)
+				&& Objects.equals(ItemID, other.ItemID) && Objects.equals(itemName, other.itemName)
+>>>>>>> refs/remotes/origin/SyedBranch
 				&& Objects.equals(Photo, other.Photo) && Price == other.Price && Stock == other.Stock;
 	}
 
 	@Override
 	public String toString() {
+<<<<<<< HEAD
 		return "Item{ItemID=" + ItemID + "', UserID=" + userID + "', ItemName='" + ItemName + "', Photo='" + Photo + "', Description='"
 				+ Description + "', Price='" + Price + "', Stock='" + Stock + "'}";
+=======
+		return "Item{ItemID=" + ItemID + "', UserID=" + UserID + "', itemName='" + itemName + "', Photo='" + Photo + "', description='"
+				+ description + "', Price='" + Price + "', Stock='" + Stock + "'}";
+>>>>>>> refs/remotes/origin/SyedBranch
 	}
 	
 	

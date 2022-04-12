@@ -11,13 +11,21 @@ import { Item } from './items';
 // This class contains functions that allow us to communicate with the backend
 export class ItemService {
     private apiServerUrl = environment.apiBaseUrl;
+
+
     private entityUrl = "items";
+    private getSearchItemsUrl = "items/search";
 
     constructor(private http: HttpClient) { }
 
     // GET ALL 
     public getItems(): Observable<HttpResponse<any>> {
         return this.http.get<any>(`${this.apiServerUrl}/${this.entityUrl}`, { observe: 'response' });
+    }
+
+    // GET ALL SEARCH FILTERED
+    public getSearchItems(keyword: string): Observable<HttpResponse<any>> {
+        return this.http.get<any>(`${this.apiServerUrl}/${this.getSearchItemsUrl}/${keyword}`, { observe: 'response' });
     }
 
     // GET ONE 
@@ -32,7 +40,7 @@ export class ItemService {
 
     //PUT(update) ONE 
     public putItem(item: Item): Observable<HttpResponse<any>> {
-        return this.http.put<HttpResponse<any>>(`${this.apiServerUrl}/${this.entityUrl}/${item.iid}`, item);
+        return this.http.put<HttpResponse<any>>(`${this.apiServerUrl}/${this.entityUrl}/${item.itemID}`, item);
     }
 
     // DELETE ONE 
