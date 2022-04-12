@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+
 @Entity
 public class UserAccount {
 
@@ -101,7 +102,6 @@ public class UserAccount {
 		return "User{UserID=" + UserID + ", FullName='" + FullName + "', UserName='" + userName + ", Password='" + Password + "', DateTimeRegister='"
 				+ DateTimeRegister + "', Address='" + Address + "', Role='" + Role + "'}";
 	}
-	
 	
 
 	

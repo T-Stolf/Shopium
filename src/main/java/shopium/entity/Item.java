@@ -10,7 +10,7 @@ import javax.persistence.Id;
 public class Item {
 
 	private @Id @GeneratedValue Long ItemID;
-	private Long UserID;
+	private Long userID;
 	private String ItemName;
 	private String Photo;
 	private String Description;
@@ -23,7 +23,7 @@ public class Item {
 	public Item(Long userID, String iName, String photo, String description, int price,
 			int stock) {
 		super();
-		UserID = userID;
+		this.userID = userID;
 		ItemName = iName;
 		Photo = photo;
 		Description = description;
@@ -40,11 +40,11 @@ public class Item {
 	}
 
 	public Long getUserID() {
-		return UserID;
+		return userID;
 	}
 
 	public void setUserID(Long userID) {
-		UserID = userID;
+		this.userID = userID;
 	}
 
 	public String getItemName() {
@@ -89,7 +89,7 @@ public class Item {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(UserID, Description, ItemID, ItemName, Photo, Price, Stock);
+		return Objects.hash(userID, Description, ItemID, ItemName, Photo, Price, Stock);
 	}
 
 	@Override
@@ -101,14 +101,14 @@ public class Item {
 		if (getClass() != obj.getClass())
 			return false;
 		Item other = (Item) obj;
-		return Objects.equals(UserID, other.UserID) && Objects.equals(Description, other.Description)
+		return Objects.equals(userID, other.userID) && Objects.equals(Description, other.Description)
 				&& Objects.equals(ItemID, other.ItemID) && Objects.equals(ItemName, other.ItemName)
 				&& Objects.equals(Photo, other.Photo) && Price == other.Price && Stock == other.Stock;
 	}
 
 	@Override
 	public String toString() {
-		return "Item{ItemID=" + ItemID + "', UserID=" + UserID + "', ItemName='" + ItemName + "', Photo='" + Photo + "', Description='"
+		return "Item{ItemID=" + ItemID + "', UserID=" + userID + "', ItemName='" + ItemName + "', Photo='" + Photo + "', Description='"
 				+ Description + "', Price='" + Price + "', Stock='" + Stock + "'}";
 	}
 	

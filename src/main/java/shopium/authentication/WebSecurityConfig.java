@@ -24,20 +24,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	private UserDetailsService uds;
 	
 	@Bean
-	AuthenticationProvider Auth() {
-		DaoAuthenticationProvider adminAuthProvider 
+	public DaoAuthenticationProvider Auth() {
+		DaoAuthenticationProvider authProvider 
 			= new DaoAuthenticationProvider();
-		adminAuthProvider.setUserDetailsService(uds);
-		adminAuthProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+		authProvider.setUserDetailsService(uds);
+		authProvider.setPasswordEncoder(new BCryptPasswordEncoder());
 		
-		return adminAuthProvider;
+		return authProvider;
 	}
 
-////	@Override
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception
-//	{
-//			auth.userDetailsService(uds);
-//	}
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception
+	{
+		auth.authenticationProvider(Auth());
+	}
 	
 	//ignore request calls to any path containing /resources, used to place our internal resources
 	@Override
@@ -52,28 +52,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 		
 		http
-		.csrf().disable()
+		//.csrf().disable()
 		.authorizeRequests()
 		.antMatchers("/admin/**").hasAuthority("Admin")
-		.antMatchers("/home*").anonymous()
-		.antMatchers("/login*").permitAll()
+		.antMatchers("/Account*").permitAll()
+		.antMatchers("/my*").hasAnyAuthority("Admin", "User")
+		.antMatchers("/login*").anonymous()
+		.antMatchers("/index*").anonymous()
+		.antMatchers("/").anonymous()
 		.anyRequest().authenticated()
+		
+		
 		
 		.and()
 		
 		.formLogin()//.loginPage("/login.html")
-		.loginProcessingUrl("/perform_login")
-		.defaultSuccessUrl("/index.html", true)
+		.loginProcessingUrl("/login")
+		.defaultSuccessUrl("/myAccount", true)
 		.failureUrl("/login.html?error=true")
 		//.failureHandler(authenticationFailureHandler())
 		
 	    .and()
 	    
 	    .logout()
-	    .logoutUrl("/perform_logout")
-	    .logoutSuccessUrl("/home")
+	    .logoutUrl("/logout")
+	    .logoutSuccessUrl("/")
 	    .invalidateHttpSession(true)    
-	    .deleteCookies("JSESSIONID");
+	    .deleteCookies("JSESSIONID")
+	    
+	    .and().httpBasic();
 	    //.logoutSuccessHandler(logoutSuccessHandler());
 //		http.authorizeRequests()
 //		.antMatchers("/").permitAll()

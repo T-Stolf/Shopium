@@ -6,6 +6,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import shopium.entity.*;
 import shopium.assembler.*;
+import shopium.authentication.UserAuthentication;
 import shopium.repository.*;
 import shopium.exception.*;
 
@@ -29,14 +31,20 @@ public class ItemController {
 	private final ItemRepository repo;
 	private ItemModelAssembler assembler;
 	
+	
+	private UserAuthentication UAuth;
+
+	
 	public ItemController(ItemRepository repository, ItemModelAssembler ass)
 	{
 		this.repo = repository;
 		this.assembler = ass;
+
 	}
-	//UserControls
-	@GetMapping("/myitems")
-	public CollectionModel<EntityModel<Item>> myItems()
+	//public controls
+	//all items
+	@GetMapping("/admin/items")
+	public CollectionModel<EntityModel<Item>> all()
 	{
 		List<EntityModel<Item>> items = repo.findAll()
                 .stream()
@@ -46,9 +54,43 @@ public class ItemController {
 		   return CollectionModel.of(items, linkTo(methodOn(ItemController.class).all()).withSelfRel());
 	}
 	
-	@PostMapping("/myitems")
+    // Single item
+    @GetMapping("/items/{id}")
+    public EntityModel<Item> one(@PathVariable Long id) {
+
+        Item item = repo.findById(id) //
+                .orElseThrow(() -> new ItemNotFoundException(id));
+
+        return assembler.toModel(item);
+    }
+	
+	//UserControls
+	@GetMapping("/myItems")
+	public CollectionModel<EntityModel<Item>> myItems()
+	{
+		this.UAuth = UserAuthentication.getInstance();
+
+		Long userID = UAuth.getID();
+		
+		List<EntityModel<Item>> items = repo.findByUserID(userID)
+                .stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+		
+
+		
+		
+		   return CollectionModel.of(items, linkTo(methodOn(ItemController.class).all()).withSelfRel());
+	}
+	
+	@PostMapping("/myItems")
     public ResponseEntity<?> myNewItem(@RequestBody Item newItem) {
 
+		this.UAuth = UserAuthentication.getInstance();
+    	
+		Long userID = UAuth.getID();
+		newItem.setUserID(userID);
+		
         EntityModel<Item> entityModel = assembler.toModel(repo.save(newItem));
 
         return ResponseEntity 
@@ -57,18 +99,34 @@ public class ItemController {
     }
 
     // Single item
-    @GetMapping("/myitems/{id}")
+    @GetMapping("/myItems/{id}")
     public EntityModel<Item> getMyItem(@PathVariable Long id) {
 
+    	this.UAuth = UserAuthentication.getInstance();
+    	
+		Long userID = UAuth.getID();
+    	
         Item item = repo.findById(id) //
                 .orElseThrow(() -> new ItemNotFoundException(id));
+        if(!(item.getUserID().equals(userID)))
+        {
+        	throw new ItemNotFoundException(id);
+        }
 
         return assembler.toModel(item);
     }
 
-    @PutMapping("/myitems/{id}")
+    @PutMapping("/myItems/{id}")
     public ResponseEntity<?> replaceMyItem(@RequestBody Item newItem, @PathVariable Long id) {
 
+    	this.UAuth = UserAuthentication.getInstance();
+    	
+		Long userID = UAuth.getID();
+		if(newItem.getUserID() != userID)
+		{
+			throw new ItemNotFoundException(id);
+		}
+    	
         Item updatedItem = repo.findById(id)
                 .map(item -> {
                 	item.setUserID(newItem.getUserID());
@@ -89,25 +147,29 @@ public class ItemController {
         
     }
 
-    @DeleteMapping("/myitems/{id}")
+    @DeleteMapping("/myItems/{id}")
     public ResponseEntity<?> deleteMyItem(@PathVariable Long id) {
-        repo.deleteById(id);
-        return ResponseEntity.noContent().build();
+    	
+    	this.UAuth = UserAuthentication.getInstance();
+    	
+		Long userID = UAuth.getID();
+    	
+		if(repo.getById(id).getUserID().equals(userID))
+		{
+			repo.deleteById(id);
+			return ResponseEntity.noContent().build();
+		}
+		else
+		{
+			throw new ItemNotFoundException(id);
+		}
     }
 	
 	
-	//Admin Controls
-	@GetMapping("/admin/items")
-	public CollectionModel<EntityModel<Item>> all()
-	{
-		List<EntityModel<Item>> items = repo.findAll()
-                .stream()
-                .map(assembler::toModel)
-                .collect(Collectors.toList());
-		
-		   return CollectionModel.of(items, linkTo(methodOn(ItemController.class).all()).withSelfRel());
-	}
 	
+
+	
+	//Admin Controls
 	@PostMapping("/admin/items")
     public ResponseEntity<?> newItem(@RequestBody Item newItem) {
 
@@ -118,15 +180,7 @@ public class ItemController {
                 .body(entityModel);
     }
 
-    // Single item
-    @GetMapping("/admin/items/{id}")
-    public EntityModel<Item> one(@PathVariable Long id) {
 
-        Item item = repo.findById(id) //
-                .orElseThrow(() -> new ItemNotFoundException(id));
-
-        return assembler.toModel(item);
-    }
 
     @PutMapping("/admin/items/{id}")
     public ResponseEntity<?> replaceItem(@RequestBody Item newItem, @PathVariable Long id) {

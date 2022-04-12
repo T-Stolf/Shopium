@@ -6,6 +6,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import shopium.entity.*;
 import shopium.assembler.*;
+import shopium.authentication.UserAuthentication;
 import shopium.repository.*;
 import shopium.exception.*;
 
@@ -34,18 +36,26 @@ public class OrderController {
 	private final OrderRepository repo;
 	private OrderModelAssembler assembler;
 	
+	
+	private UserAuthentication UAuth; 
+
+	
 	public OrderController(OrderRepository repository, OrderModelAssembler ass)
 	{
 		this.repo = repository;
 		this.assembler = ass;
+		
 	}
 	
 	//User Functions
-	@GetMapping("/myOrders/{uid}")
-	public CollectionModel<EntityModel<Order_>> allMyOrders(@PathVariable Long uid)
+	@GetMapping("/myOrders")
+	public CollectionModel<EntityModel<Order_>> allMyOrders()
 	{
+		this.UAuth = UserAuthentication.getInstance();
 		
-		List<EntityModel<Order_>> order_ = repo.findByUserID(uid).stream()
+		Long userID = UAuth.getID();
+		
+		List<EntityModel<Order_>> order_ = repo.findByUserID(userID).stream()
 				.map(assembler::toModel) //
 		        .collect(Collectors.toList());
 
@@ -56,36 +66,58 @@ public class OrderController {
 	
 	
 	// Single item
-    @GetMapping("/myOrders/{uid}/{oid}")
-    public EntityModel<Order_> myOrder(@PathVariable Long uid, @PathVariable Long oid) {
-
+    @GetMapping("/myOrders/{oid}")
+    public EntityModel<Order_> myOrder( @PathVariable Long oid) {
+    	
+    	this.UAuth = UserAuthentication.getInstance();
+    	
+		Long userID = UAuth.getID();
+		
         Order_ order_ = repo.findById(oid) //
                 .orElseThrow(() -> new OrderNotFoundException(oid));
         
-        if(order_.getUserID() != uid)
+        if(order_.getUserID() != userID)
         {
-        	return null;
+        	throw new OrderNotFoundException(oid);
         }
 
         return assembler.toModel(order_);
     }
 	@PostMapping("/myOrders")
     public ResponseEntity<?> myNewOrder(@RequestBody Order_ order) {
-
+		
+		this.UAuth = UserAuthentication.getInstance();
+		
+		Long userID = UAuth.getID();
+		
+		if(order.getUserID() != userID)
+		{
+			throw new OrderNotFoundException(order.getOrderID());
+		}
+		
 		order.setStatus(Status.IN_PROGRESS);
 		Order_ newOrder = repo.save(order);
 
-        return ResponseEntity 
-                .created(linkTo(methodOn(OrderController.class).one(newOrder.getOrderID())).toUri()) //
-                .body(assembler.toModel(newOrder));
+		return ResponseEntity 
+            .created(linkTo(methodOn(OrderController.class).one(newOrder.getOrderID())).toUri()) //
+            .body(assembler.toModel(newOrder));
     }
 	
 	
     @PutMapping("/myOrders/{id}/complete")
     public ResponseEntity<?> completeMyOrder(@PathVariable Long id) {
 
+    	this.UAuth = UserAuthentication.getInstance();
+    	
+		Long userID = UAuth.getID();
+    	
     	Order_ order_ = repo.findById(id) //
     	        .orElseThrow(() -> new OrderNotFoundException(id));
+    	
+    	if(order_.getUserID() != userID)
+		{
+    		throw new OrderNotFoundException(id);
+		}
 
     	    if (order_.getStatus() == Status.IN_PROGRESS) {
     	      order_.setStatus(Status.COMPLETED);
@@ -105,8 +137,17 @@ public class OrderController {
     @PutMapping("/myOrders/{id}/cancel")
     public ResponseEntity<?> cancelMyOrder(@PathVariable Long id) {
     	
+    	this.UAuth = UserAuthentication.getInstance();
+    	
+		Long userID = UAuth.getID();
+    	
     	 Order_ order_ = repo.findById(id) //
     		        .orElseThrow(() -> new OrderNotFoundException(id));
+
+    	 if(order_.getUserID() != userID)
+ 		{
+     		throw new OrderNotFoundException(id);
+ 		}
 
     		    if (order_.getStatus() == Status.IN_PROGRESS) {
     		      order_.setStatus(Status.CANCELLED);
