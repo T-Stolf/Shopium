@@ -54,8 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http
 //		.csrf().disable()
-		.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-		.and()
+		.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
 		.authorizeRequests()
 		.antMatchers("/admin/**").hasAuthority("Admin")
 		.antMatchers("/my**").hasAnyAuthority("Admin", "User")
