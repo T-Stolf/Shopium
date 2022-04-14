@@ -1,11 +1,9 @@
 package shopium.authentication;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 
 import shopium.exception.UserAccountNotFoundException;
-import shopium.repository.UserAccountRepository;
 
 public class UserAuthentication {
 
