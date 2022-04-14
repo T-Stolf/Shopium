@@ -47,6 +47,29 @@ public class ItemController {
 		return CollectionModel.of(items, linkTo(methodOn(ItemController.class).all()).withSelfRel());
 	}
 	
+	//Get based on given price range
+	@GetMapping("/items/search/{upper}-{lower}")
+	public CollectionModel<EntityModel<Item>> getPriceRange(@PathVariable int upper, @PathVariable int lower)
+	{
+	
+				List<Item> priceItem = repo.findAll();
+				
+				for(Item i : priceItem)
+				{
+					if(i.getPrice() > upper || i.getPrice() < lower)
+					{
+						priceItem.remove(i);
+					}
+				}
+				List<EntityModel<Item>> items = priceItem	
+                .stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());		
+		
+		
+		return CollectionModel.of(items, linkTo(methodOn(ItemController.class).all()).withSelfRel());
+	}
+	
 	@GetMapping("/items")
 	public CollectionModel<EntityModel<Item>> all()
 	{
