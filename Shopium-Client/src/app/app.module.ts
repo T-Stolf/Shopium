@@ -9,6 +9,9 @@ import { AppComponent } from './app.component';
 import { CatalogItemComponent } from './Components/catalog-item/catalog-item.component';
 import { CatalogComponent } from './Components/catalog/catalog.component';
 import { CartComponent } from './Components/cart/cart.component';
+import { UserpageComponent } from './Components/userpage/userpage.component';
+import { UserProfileComponent } from './Components/user-profile/user-profile.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -16,12 +19,15 @@ import { CartComponent } from './Components/cart/cart.component';
     CatalogComponent,
     CatalogItemComponent,
     CartComponent,
+    UserpageComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

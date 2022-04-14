@@ -35,9 +35,22 @@ public class ItemController {
 		this.assembler = ass;
 	}
 	
+
+	// GET ALL - based on a id filter
+	@GetMapping("/items/user/{userid}")
+	public CollectionModel<EntityModel<Item>> filteredByUserId(@PathVariable Long userid)
+	{
+		System.out.println("QUERY:" +userid+ userid.getClass());
+		List<EntityModel<Item>> items = repo.findByUserID(userid)
+				.stream()
+				.map(assembler::toModel)
+				.collect(Collectors.toList());		
+		return CollectionModel.of(items, linkTo(methodOn(ItemController.class).all()).withSelfRel());
+	}
+
 	// GET ALL - based on a search filter
 	@GetMapping("/items/search/{query}")
-	public CollectionModel<EntityModel<Item>> filtered(@PathVariable String query)
+	public CollectionModel<EntityModel<Item>> filteredByQuery(@PathVariable String query)
 	{
 		System.out.println("QUERY:" +query + query.getClass());
 		List<EntityModel<Item>> items = repo.findByItemNameOrDescriptionContaining(query, query)
