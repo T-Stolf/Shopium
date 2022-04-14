@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/login*").anonymous()
 		.antMatchers("/index*").anonymous()
 		.antMatchers("/").anonymous()
-		.anyRequest().authenticated()
+//		.anyRequest().authenticated()
 		
 		
 		

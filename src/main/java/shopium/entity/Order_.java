@@ -12,63 +12,44 @@ import javax.persistence.Id;
 @Entity
 public class Order_ {
 
-<<<<<<< HEAD
+
 	private @Id @GeneratedValue Long OrderID;
 	private Long userID;
-	private LocalDateTime DateTime;
+	private LocalDateTime dateTime;
 	private int Cost;
 	private int ItemNum;
 	private Status Status;
-=======
-	private @Id @GeneratedValue Long orderID;
-	private Long userID;
-	private LocalDateTime dateTime;
-	private int cost;
-	private int itemNum;
-	private Status status;
->>>>>>> refs/remotes/origin/SyedBranch
+
 	
 	public Order_() {}
 
 	public Order_(Long uID, LocalDateTime dateTime, int cost, int itemNum, Status status) {
 		super();
-<<<<<<< HEAD
+
 		this.userID = uID;
-		DateTime = dateTime;
+		this.dateTime = dateTime;
 		Cost = cost;
 		ItemNum = itemNum;
 		Status = status;
-=======
-		userID = uID;
-		dateTime = dateTime;
-		cost = cost;
-		itemNum = itemNum;
-		status = status;
->>>>>>> refs/remotes/origin/SyedBranch
+
 	}
 
 	public Long getOrderID() {
-		return orderID;
+		return OrderID;
 	}
 
 	public void setOrderID(Long oID) {
-		orderID = oID;
+		OrderID = oID;
 	}
 
 	public Long getUserID() {
-<<<<<<< HEAD
+
 		return this.userID;
-=======
-		return userID;
->>>>>>> refs/remotes/origin/SyedBranch
+
 	}
 
 	public void setUserID(Long uID) {
-<<<<<<< HEAD
 		this.userID = uID;
-=======
-		userID = uID;
->>>>>>> refs/remotes/origin/SyedBranch
 	}
 
 	public LocalDateTime getDateTime() {
@@ -80,35 +61,31 @@ public class Order_ {
 	}
 
 	public int getCost() {
-		return cost;
+		return Cost;
 	}
 
 	public void setCost(int cost) {
-		this.cost = cost;
+		this.Cost = cost;
 	}
 
 	public int getItemNum() {
-		return itemNum;
+		return ItemNum;
 	}
 
 	public void setItems(int itemNum) {
-		this.itemNum = itemNum;
+		this.ItemNum = itemNum;
 	}
 	public Status getStatus() {
-		return status;
+		return Status;
 	}
 
 	public void setStatus(Status status) {
-		this.status = status;
+		this.Status = status;
 	}
 
 	@Override
 	public int hashCode() {
-<<<<<<< HEAD
-		return Objects.hash(Cost, DateTime, ItemNum, OrderID, Status, userID);
-=======
-		return Objects.hash(cost, dateTime, itemNum, orderID, status, userID);
->>>>>>> refs/remotes/origin/SyedBranch
+		return Objects.hash(Cost, ItemNum, OrderID, Status, dateTime, userID);
 	}
 
 	@Override
@@ -120,24 +97,15 @@ public class Order_ {
 		if (getClass() != obj.getClass())
 			return false;
 		Order_ other = (Order_) obj;
-<<<<<<< HEAD
-		return Cost == other.Cost && Objects.equals(DateTime, other.DateTime) && Objects.equals(ItemNum, other.ItemNum)
-				&& Objects.equals(OrderID, other.OrderID) && Status == other.Status && Objects.equals(userID, other.userID);
-=======
-		return cost == other.cost && Objects.equals(dateTime, other.dateTime) && Objects.equals(itemNum, other.itemNum)
-				&& Objects.equals(orderID, other.orderID) && status == other.status && Objects.equals(userID, other.userID);
->>>>>>> refs/remotes/origin/SyedBranch
+		return Cost == other.Cost && ItemNum == other.ItemNum && Objects.equals(OrderID, other.OrderID)
+				&& Status == other.Status && Objects.equals(dateTime, other.dateTime)
+				&& Objects.equals(userID, other.userID);
 	}
 
 	@Override
 	public String toString() {
-<<<<<<< HEAD
-		return "Creator{OrderID=" + OrderID + ", UserID='" + userID + "', DateTime='" + DateTime + ", 'Status='" + Status + "', Cost='" + Cost + "', ItemNum="
-				+ ItemNum + "}";
-=======
-		return "Creator{OrderID=" + orderID + ", UserID='" + userID + "', DateTime='" + dateTime + ", 'Status='" + status + "', Cost='" + cost + "', ItemNum="
-				+ itemNum + "}";
->>>>>>> refs/remotes/origin/SyedBranch
+		return "Order_ [OrderID=" + OrderID + ", userID=" + userID + ", dateTime=" + dateTime + ", Cost=" + Cost
+				+ ", ItemNum=" + ItemNum + ", Status=" + Status + "]";
 	}
 	
 }

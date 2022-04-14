@@ -41,11 +41,8 @@ public class ItemController {
 		this.assembler = ass;
 
 	}
-<<<<<<< HEAD
+
 	//public controls
-	//all items
-	@GetMapping("/admin/items")
-=======
 	
 	// GET ALL - based on a search filter
 	@GetMapping("/items/search/{query}")
@@ -58,9 +55,8 @@ public class ItemController {
                 .collect(Collectors.toList());		
 		return CollectionModel.of(items, linkTo(methodOn(ItemController.class).all()).withSelfRel());
 	}
-	
+	//all items
 	@GetMapping("/items")
->>>>>>> refs/remotes/origin/SyedBranch
 	public CollectionModel<EntityModel<Item>> all()
 	{
 		List<EntityModel<Item>> items = repo.findAll()
