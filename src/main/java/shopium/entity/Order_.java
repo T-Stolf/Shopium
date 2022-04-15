@@ -31,7 +31,6 @@ public class Order_ {
 		Cost = cost;
 		ItemNum = itemNum;
 		Status = status;
-
 	}
 
 	public Long getOrderID() {

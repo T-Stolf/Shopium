@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import shopium.entity.*;
+import shopium.adminListener.publisher.Publisher;
 import shopium.assembler.*;
 import shopium.authentication.CustomUserDetails;
 import shopium.authentication.UserAuthentication;
@@ -33,30 +34,40 @@ import shopium.exception.*;
 public class OrderItemController {
 
 	private OrderItemRepository repo;
+	private OrderRepository Orepo;
 	private OrderItemModelAssembler assembler;
 	
 	
 	private UserAuthentication UAuth; 
 
-	public OrderItemController(OrderItemRepository repository, OrderItemModelAssembler ass)
+	public OrderItemController(OrderItemRepository repository, OrderItemModelAssembler ass, OrderRepository orep)
 	{
 		this.repo = repository;
 		this.assembler = ass;
+		this.Orepo = orep;
 	}
+	
+	@Autowired
+	private Publisher Pub;
 	
 	//UserControls
 	@GetMapping("/myOrderItems/{orderID}")
 	public CollectionModel<EntityModel<OrderItem>> allForOrder(@PathVariable Long orderID)
 	{
+		
+		Pub.Event("/myOrderItems");
+		
 		this.UAuth = UserAuthentication.getInstance();
 		
 		Long userID = UAuth.getID();
 		
 		List<OrderItem> unverifiedItemList = repo.findByOrderID(orderID);
 		List<OrderItem> verifiedItemList = new ArrayList<OrderItem>();
+		
+		
 		for(OrderItem OI: unverifiedItemList)
 		{
-			if(OI.getUserID().equals(userID))
+			if(Orepo.getById(OI.getOrderID()).getUserID().equals(userID))
 			{
 				verifiedItemList.add(OI);
 			}
@@ -74,11 +85,15 @@ public class OrderItemController {
 	@PostMapping("/myOrderItems")
 	public ResponseEntity<?> newItemForOrder(@RequestBody OrderItem newOrderItem) {
 	
+		Pub.Event("/myOrderItems");
+		
 		this.UAuth = UserAuthentication.getInstance();
 		
 		Long userID = UAuth.getID();
 		
-		if(newOrderItem.getUserID().equals(userID))
+		
+		
+		if(Orepo.getById(newOrderItem.getOrderID()).getUserID().equals(userID))
 		{
 	    EntityModel<OrderItem> entityModel = assembler.toModel(repo.save(newOrderItem));
 	    	return ResponseEntity 
@@ -93,11 +108,13 @@ public class OrderItemController {
 	@DeleteMapping("/myOrderItems/{orderItemID}")
 	public ResponseEntity<?> deleteItemFromOrder(@PathVariable Long orderItemID) {
 	    
+		Pub.Event("/myOrderItems");
+		
 		this.UAuth = UserAuthentication.getInstance();
 		
 		Long userID = UAuth.getID();
 		
-		if(repo.getById(orderItemID).getUserID().equals(userID))
+		if(Orepo.getById(repo.getById(orderItemID).getOrderID()).getUserID().equals(userID))
 		{
 			repo.deleteById(orderItemID);
 		    return ResponseEntity.noContent().build();
@@ -134,7 +151,7 @@ public class OrderItemController {
 	    return assembler.toModel(orderitem);
 	}
 	
-	@PostMapping("/orderItems")
+	@PostMapping("/admin/orderItems")
 	public ResponseEntity<?> newOrderItem(@RequestBody OrderItem newOrderItem) {
 	
 	    EntityModel<OrderItem> entityModel = assembler.toModel(repo.save(newOrderItem));
@@ -144,13 +161,13 @@ public class OrderItemController {
 	            .body(entityModel);
 	}
 	
-	@PutMapping("/orderItems/{id}")
+	@PutMapping("/admin/orderItems/{id}")
 	public ResponseEntity<?> replaceOrderItem(@RequestBody OrderItem newOrderItem, @PathVariable Long id) {
 	
 	    OrderItem updatedOrderItem = repo.findById(id)
 	            .map(orderitem -> {
 	            	orderitem.setOrderID(newOrderItem.getOrderID());
-	            	orderitem.setUserID(newOrderItem.getUserID());
+	            	orderitem.setItemID(newOrderItem.getItemID());
 	                return repo.save(orderitem);
 	            })
 	            .orElseGet(() -> {

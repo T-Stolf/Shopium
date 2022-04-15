@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -16,6 +17,7 @@ import org.springframework.web.filter.CorsFilter;
 @ComponentScan(basePackages = "shopium")
 @EnableJpaRepositories(basePackages = "shopium.repository")
 @EntityScan("shopium.entity")
+@EnableAsync
 public class ShopiumApp {
 	 public static void main(String... args) {
 	        SpringApplication.run(ShopiumApp.class, args);

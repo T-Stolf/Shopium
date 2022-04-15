@@ -3,6 +3,7 @@ package shopium.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import shopium.entity.*;
+import shopium.adminListener.publisher.Publisher;
 import shopium.assembler.*;
 import shopium.authentication.UserAuthentication;
 import shopium.repository.*;
@@ -39,6 +41,9 @@ public class OrderController {
 	
 	private UserAuthentication UAuth; 
 
+	@Autowired
+	private Publisher Pub;
+	
 	
 	public OrderController(OrderRepository repository, OrderModelAssembler ass)
 	{
@@ -51,6 +56,9 @@ public class OrderController {
 	@GetMapping("/myOrders")
 	public CollectionModel<EntityModel<Order_>> allMyOrders()
 	{
+		
+		Pub.Event("/myOrders");
+		
 		this.UAuth = UserAuthentication.getInstance();
 		
 		Long userID = UAuth.getID();
@@ -58,6 +66,7 @@ public class OrderController {
 		List<EntityModel<Order_>> order_ = repo.findByUserID(userID).stream()
 				.map(assembler::toModel) //
 		        .collect(Collectors.toList());
+		
 
 
 		    return CollectionModel.of(order_, //
@@ -68,6 +77,8 @@ public class OrderController {
 	// Single item
     @GetMapping("/myOrders/{oid}")
     public EntityModel<Order_> myOrder( @PathVariable Long oid) {
+    	
+    	Pub.Event("/myOrders");
     	
     	this.UAuth = UserAuthentication.getInstance();
     	
@@ -86,6 +97,8 @@ public class OrderController {
 	@PostMapping("/myOrders")
     public ResponseEntity<?> myNewOrder(@RequestBody Order_ order) {
 		
+		Pub.Event("/myOrders");
+		
 		this.UAuth = UserAuthentication.getInstance();
 		
 		Long userID = UAuth.getID();
@@ -95,18 +108,25 @@ public class OrderController {
 			throw new OrderNotFoundException(order.getOrderID());
 		}
 		
+		order.setDateTime(LocalDateTime.now());
 		order.setStatus(Status.IN_PROGRESS);
 		Order_ newOrder = repo.save(order);
 
+		
 		return ResponseEntity 
             .created(linkTo(methodOn(OrderController.class).one(newOrder.getOrderID())).toUri()) //
             .body(assembler.toModel(newOrder));
+		
+
+		
     }
 	
 	
     @PutMapping("/myOrders/{id}/complete")
     public ResponseEntity<?> completeMyOrder(@PathVariable Long id) {
 
+    	Pub.Event("/myOrders/X/complete");
+    	
     	this.UAuth = UserAuthentication.getInstance();
     	
 		Long userID = UAuth.getID();
@@ -136,6 +156,8 @@ public class OrderController {
 
     @PutMapping("/myOrders/{id}/cancel")
     public ResponseEntity<?> cancelMyOrder(@PathVariable Long id) {
+    	
+    	Pub.Event("/myOrders/X/cancel");
     	
     	this.UAuth = UserAuthentication.getInstance();
     	
@@ -204,7 +226,6 @@ public class OrderController {
     	Order_ order_ = repo.findById(id) //
     	        .orElseThrow(() -> new OrderNotFoundException(id));
 
-    	System.out.println("woo joo");
     	    if (order_.getStatus() == Status.IN_PROGRESS) {
     	      order_.setStatus(Status.COMPLETED);
     	      System.out.println("wee woo");

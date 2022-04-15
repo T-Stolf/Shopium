@@ -3,6 +3,7 @@ package shopium.controller;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import shopium.entity.*;
+import shopium.adminListener.publisher.Publisher;
 import shopium.assembler.*;
 import shopium.authentication.CustomUserDetails;
 import shopium.authentication.UserAuthentication;
@@ -38,6 +41,8 @@ public class UserAccountController {
 	
 	private UserAuthentication UAuth;
 
+	@Autowired
+	private Publisher Pub;
 	
 	public UserAccountController(UserAccountRepository repository, UserAccountModelAssembler ass)
 	{
@@ -49,11 +54,19 @@ public class UserAccountController {
 	@PostMapping("/Account/Register")
 	public ResponseEntity<?> newUser(@RequestBody UserAccount newUser) throws Exception {
 	
+		Pub.Event("/Account/Register");
+		
+		
+		
 		if(newUser == null)
 		{
 			throw new Exception("Cannot create null user");
 		}
+		
+		BCryptPasswordEncoder BCPT = new BCryptPasswordEncoder();
+		newUser.setDateTimeRegister(LocalDateTime.now());
 		newUser.setRole("User");
+		newUser.setPassword(BCPT.encode(newUser.getPassword()));
 		
 		List<UserAccount> users = repo.findAll();
 		
@@ -61,7 +74,11 @@ public class UserAccountController {
 	            if (user.equals(newUser)) {
 	                throw new Exception("User Already exists!");
 	            }
+	            if(user.getUserName().equals(newUser.getUserName())) {
+	                throw new Exception("User Already exists!");
+	            }
 	        }
+
 		 
 	    EntityModel<UserAccount> entityModel = assembler.toModel(repo.save(newUser));
 	
@@ -74,8 +91,13 @@ public class UserAccountController {
 	@GetMapping("/myAccount")
 	public EntityModel<UserAccount> getMyself() {
 		
+		Pub.Event("/myAccount");
+		
 		this.UAuth = UserAuthentication.getInstance();
 		UserAccount userAccount = repo.findByUserName(UAuth.getUsername());
+		
+		
+		
 		return assembler.toModel(userAccount);   
 	}
 	
@@ -83,18 +105,18 @@ public class UserAccountController {
 	@PutMapping("/myAccount")
 	public ResponseEntity<?> replaceMyself(@RequestBody UserAccount newUser) {
 
+		Pub.Event("/myAccount");
+		BCryptPasswordEncoder BCPT = new BCryptPasswordEncoder();
 		this.UAuth = UserAuthentication.getInstance();
-		
-		
 		
 		String username = UAuth.getUsername();
 		UserAccount userAccount = repo.findByUserName(username);
 		
 			userAccount.setAddress(newUser.getAddress() != null ? newUser.getAddress() : userAccount.getAddress());	
-		    userAccount.setDateTimeRegister(newUser.getDateTimeRegister()!= null ? newUser.getDateTimeRegister() : userAccount.getDateTimeRegister());
+		    userAccount.setDateTimeRegister(newUser.getDateTimeRegister() != null ? newUser.getDateTimeRegister() : userAccount.getDateTimeRegister());
 		    userAccount.setFullName(newUser.getFullName() != null ? newUser.getFullName() : userAccount.getFullName());
 		    userAccount.setUserName(newUser.getUserName() != null ? newUser.getUserName() : userAccount.getUserName());
-		    userAccount.setPassword(newUser.getPassword() != null ? newUser.getPassword() : userAccount.getPassword());
+		    userAccount.setPassword(newUser.getPassword() != null ? BCPT.encode(newUser.getPassword()) : userAccount.getPassword());
 	
 		EntityModel<UserAccount> entityModel = assembler.toModel(userAccount);
 	    return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
@@ -105,6 +127,7 @@ public class UserAccountController {
 	@GetMapping("/admin/userAccounts")
 	public CollectionModel<EntityModel<UserAccount>> all()
 	{
+		
 		List<EntityModel<UserAccount>> userAccounts = repo.findAll()
 	            .stream()
 	            .map(assembler::toModel)
