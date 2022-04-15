@@ -12,4 +12,5 @@ import shopium.entity.Item;
 public interface ItemRepository extends JpaRepository<Item, Long>{
 	
 	List<Item> findByItemNameOrDescriptionContaining(@Param("n") String n, @Param("d") String d);
+//	List<Item> findByUserID(Long ID);
 }
