@@ -15,7 +15,7 @@ public class Item {
 	private String itemName;
 	private String Photo;
 	private String description;
-	private int Price;
+	private int price;
 	private int Stock;
 	
 	public Item() {
@@ -29,7 +29,7 @@ public class Item {
 		itemName = iName;
 		Photo = photo;
 		this.description = description;
-		Price = price;
+		this.price = price;
 		Stock = stock;
 	}
 
@@ -74,11 +74,11 @@ public class Item {
 	}
 
 	public int getPrice() {
-		return Price;
+		return this.price;
 	}
 
 	public void setPrice(int price) {
-		Price = price;
+		this.price = price;
 	}
 
 	public int getStock() {
@@ -91,7 +91,7 @@ public class Item {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(ItemID, Photo, Price, Stock, description, itemName, userID);
+		return Objects.hash(ItemID, Photo, price, Stock, description, itemName, userID);
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class Item {
 		if (getClass() != obj.getClass())
 			return false;
 		Item other = (Item) obj;
-		return Objects.equals(ItemID, other.ItemID) && Objects.equals(Photo, other.Photo) && Price == other.Price
+		return Objects.equals(ItemID, other.ItemID) && Objects.equals(Photo, other.Photo) && price == other.price
 				&& Stock == other.Stock && Objects.equals(description, other.description)
 				&& Objects.equals(itemName, other.itemName) && Objects.equals(userID, other.userID);
 	}
@@ -111,7 +111,7 @@ public class Item {
 	@Override
 	public String toString() {
 		return "Item [ItemID=" + ItemID + ", userID=" + userID + ", itemName=" + itemName + ", Photo=" + Photo
-				+ ", description=" + description + ", Price=" + Price + ", Stock=" + Stock + "]";
+				+ ", description=" + description + ", Price=" + price + ", Stock=" + Stock + "]";
 	}
 
 
