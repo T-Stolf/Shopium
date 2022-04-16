@@ -28,11 +28,15 @@ export class ItemService {
         return this.http.get<any>(`${this.apiServerUrl}/${this.getSearchItemsUrl}/${keyword}`, { observe: 'response' });
     }
 
+    // GET ALL PRICE FILTERED
+    public getPriceItems(from: number, to: number): Observable<HttpResponse<any>> {
+        return this.http.get<any>(`${this.apiServerUrl}/${this.getSearchItemsUrl}/${from}-${to}`, { observe: 'response' });
+    }
+
     // GET ALL UserID FILTERED
     public getUserItems(keyword: number): Observable<HttpResponse<any>> {
         return this.http.get<any>(`${this.apiServerUrl}/items/user/${keyword}`, { observe: 'response' });
     }
-
 
     // GET ONE 
     public getItem(iid: number): Observable<HttpResponse<any>> {
