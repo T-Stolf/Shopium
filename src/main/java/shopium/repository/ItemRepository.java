@@ -14,7 +14,6 @@ import shopium.entity.Item;
 public interface ItemRepository extends JpaRepository<Item, Long>{
 	
 	List<Item> findByItemNameOrDescriptionContaining(@Param("n") String n, @Param("d") String d);
-	List<Item> findByUserID(Long id);
 	List<Item> findByPriceBetween(@Param("lower") int lower, @Param("upper") int upper);
-	
+	List<Item> findByUserID(@Param("n") Long n);
 }

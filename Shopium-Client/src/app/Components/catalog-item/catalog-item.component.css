@@ -161,3 +161,32 @@ body{margin-top:20px;
         font-size: 18px;
         font-weight: 300;
     }
+
+    .container_bootdey{
+        background-color: #0e0e10;
+    }
+
+    .col-md-12{
+        background-color: #0e0e10;
+    }
+
+    .panel{
+        background-color: #0e0e10;
+        color: #ffffff;
+    }
+
+    .btn.btn-round.btn-danger{
+        background-color: #3a3a3d;
+        border-color: #3a3a3d;
+    }
+
+    .btn.btn-round.btn-danger:hover{
+        background-color: #772ce8;
+        border-color: #772ce8;
+    }
+
+    .form-control.quantity{
+        background-color:#464649;
+    border-color:#464649;
+    color: #ffffff;
+    }

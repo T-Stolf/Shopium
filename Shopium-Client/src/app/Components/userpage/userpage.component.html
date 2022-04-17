@@ -1,0 +1,49 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container bootstrap snippets bootdey">
+    <div class="row">
+        <div class="profile-nav col-md-3">
+            <div class="panel">
+                <div class="user-heading round">
+                    <a href="#">
+                        <img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="">
+                    </a>
+                    <h1>Camila Smith</h1>
+                    <p>deydey@theEmail.com</p>
+                </div>
+
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="active"><a href="#"> <i class="fa fa-user"></i> Profile</a></li>
+                    <li><a href="#"> <i class="fa fa-calendar"></i> Recent Activity <span
+                                class="label label-warning pull-right r-activity">9</span></a></li>
+                    <li><a href="#"> <i class="fa fa-edit"></i> Edit profile</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="profile-info col-md-9">
+
+            <div>
+                <h2>Seller's List</h2>
+                <div class="row">
+                    <div id="catalogItems" *ngFor="let item of items" class="col-sm-6 col-md-4">
+                        <div class="shop__thumb">
+                            <a (click)="goToCatalogItemPage(item.itemID)">
+                                <div class="shop-thumb__img">
+                                    <img src={{item.photo}} class="img-responsive" alt="...">
+                                </div>
+                                <h5 class="shop-thumb__title">
+                                    ID: {{item.itemID}}<br />
+                                    Seller: {{item.userID}} <br />
+                                    Item: {{item.itemName}} <br />
+                                    Description: {{item.description}} <br />
+                                    Price: {{item.price}} <br />
+                                    Stock: {{item.stock}}
+                                </h5>
+                            </a>
+                        </div>
+                    </div>
+
+                </div> <!-- / .row -->
+            </div>
+        </div>
+    </div>
+</div>

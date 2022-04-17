@@ -10,6 +10,9 @@ import { CatalogItemComponent } from './Components/catalog-item/catalog-item.com
 import { CatalogComponent } from './Components/catalog/catalog.component';
 import { CartComponent } from './Components/cart/cart.component';
 import { TokenIntercepterService } from './token-intercepter.service';
+import { UserpageComponent } from './Components/userpage/userpage.component';
+import { UserProfileComponent } from './Components/user-profile/user-profile.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -17,13 +20,16 @@ import { TokenIntercepterService } from './token-intercepter.service';
     CatalogComponent,
     CatalogItemComponent,
     CartComponent,
+    UserpageComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    HttpClientXsrfModule
+    HttpClientXsrfModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     {

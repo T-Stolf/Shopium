@@ -48,9 +48,22 @@ public class ItemController {
 
 	//public controls
 	
+
+	// GET ALL - based on a id filter
+	@GetMapping("/items/user/{userid}")
+	public CollectionModel<EntityModel<Item>> filteredByUserId(@PathVariable Long userid)
+	{
+		System.out.println("QUERY:" +userid+ userid.getClass());
+		List<EntityModel<Item>> items = repo.findByUserID(userid)
+				.stream()
+				.map(assembler::toModel)
+				.collect(Collectors.toList());		
+		return CollectionModel.of(items, linkTo(methodOn(ItemController.class).all()).withSelfRel());
+	}
+
 	// GET ALL - based on a search filter
 	@GetMapping("/items/search/{query}")
-	public CollectionModel<EntityModel<Item>> filtered(@PathVariable String query)
+	public CollectionModel<EntityModel<Item>> filteredByQuery(@PathVariable String query)
 	{
 		
 		Pub.Event("/items/search/");
@@ -79,20 +92,27 @@ public class ItemController {
 	}
 	
 	//Get items based on given userID
-	@GetMapping("/items/user/{userID}")
-	public CollectionModel<EntityModel<Item>> getUserID(@PathVariable Long userID)
-	{
-		
-		List<EntityModel<Item>> items = repo.findByUserID(userID)//priceItem	
-                .stream()
-                .map(assembler::toModel)
-                .collect(Collectors.toList());		
+	@GetMapping("/items/search/{userID}")
+		public CollectionModel<EntityModel<Item>> getUserID(@PathVariable Long userID)
+		{
+			List<Item> creatorItem = repo.findAll();
+					
+			for(Item i : creatorItem)
+			{
+				if(!(i.getUserID().equals(userID)))
+				{
+					creatorItem.remove(i);
+				}
+			}
+			
+			List<EntityModel<Item>> items = creatorItem	
+	              .stream()
+	              .map(assembler::toModel)
+	              .collect(Collectors.toList());	
 
-		return CollectionModel.of(items, linkTo(methodOn(ItemController.class).all()).withSelfRel());
-	}
+			return CollectionModel.of(items, linkTo(methodOn(ItemController.class).all()).withSelfRel());
+		}
 	
-	
-	//all items
 	@GetMapping("/items")
 	public CollectionModel<EntityModel<Item>> all()
 	{
