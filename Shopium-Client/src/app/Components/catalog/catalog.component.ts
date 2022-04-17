@@ -16,7 +16,10 @@ export class CatalogComponent implements OnInit {
   public items: Item[] = []; // list of items displayed on the catalog
   public itemID: number = 0;
 
-  @Input() searchQuery: string = "bat";
+
+  public temp: string = "";
+
+  @Input() searchQuery: string = "";
 
   constructor(private itemService: ItemService,
     private aroute: ActivatedRoute,
@@ -24,8 +27,23 @@ export class CatalogComponent implements OnInit {
 
   // executes on initialization
   ngOnInit() {
-    this.getAllItems();
+    //this.getAllItems();
+    this.getMyItems();
+    //this.getSearchItems();
   }
+
+
+  // TEMPORARY
+  public getMyItems(): void {
+    this.items = [];
+    this.itemService.getMyItems().subscribe(response => {
+      console.log(response);
+      for (const data of response?.body._embedded.itemList) {
+        this.items.push(data);
+      }
+    });
+  }
+
 
   //-------------------------------------------------------------------------------------
   // GET ALL ITEMS
@@ -49,7 +67,6 @@ export class CatalogComponent implements OnInit {
       this.getAllItems();
       return;
     }
-
     console.log(this.searchQuery);
     this.itemService.getSearchItems(this.searchQuery).subscribe(response => {
       console.log(response);
@@ -69,7 +86,7 @@ export class CatalogComponent implements OnInit {
   }
 
   //-------------------------------------------------------------------------------------
-  // GET ONE BASED
+  // GET ONE BASED ON ID
   public getSingularItem(iid: number): Item | undefined {
     for (const item of this.items) {
       if (item.itemID == iid) {

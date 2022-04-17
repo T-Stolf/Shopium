@@ -28,6 +28,12 @@ export class ItemService {
         return this.http.get<any>(`${this.apiServerUrl}/${this.getSearchItemsUrl}/${keyword}`, { observe: 'response' });
     }
 
+    // TEMPORARY : GET AUTH REQUIRED REQUEST
+    public getMyItems(): Observable<HttpResponse<any>> {
+        //console.log(this.xsrf);
+        return this.http.get<any>(`${this.apiServerUrl}/myItems`, { observe: 'response' });
+    }
+
     // GET ONE 
     public getItem(iid: number): Observable<HttpResponse<any>> {
         return this.http.get<HttpResponse<any>>(`${this.apiServerUrl}/${this.entityUrl}/${iid}`);
