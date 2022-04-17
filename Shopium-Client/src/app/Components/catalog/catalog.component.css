@@ -632,3 +632,84 @@ body{margin-top:20px;}
   color: #ccc;
   font-weight: 600;
 }
+
+.shop__thumb{
+  background-color:#0e0e10;
+  color: #ffffff;
+  transition: .15s ease;
+}
+
+.shop__thumb:hover{
+  box-shadow:
+1px 1px #772ce8,
+2px 2px #772ce8,
+3px 3px #772ce8,
+4px 4px #772ce8,
+5px 5px #772ce8,
+6px 6px #772ce8;
+-webkit-transform: translateX(-3px);
+transform: translateX(-3px);
+transition: .30s ease;
+}
+
+.col-sm-4.col-md-3{
+  background-color:#1f1f23;
+  color: #ffffff;
+}
+
+.shop__filter.ng-untouched.ng-pristine.ng-valid{
+  background-color:#1f1f23;
+}
+
+.COLORS{
+  color: #464649;
+  color: #3a3a3d;
+  NAVCOLOR: #18181b;
+  bgcolor: #0e0e10;
+  inputtxtcolr: #c1c1c2;
+  othertxt: #bf94ff;
+  lrgbuttons: #772ce8;
+}
+
+.form-control{
+  background-color:#464649;
+  border-color:#464649;
+  color: #ffffff;
+}
+
+::placeholder{
+  color: #c1c1c2;
+}
+
+.btn.btn-block.btn-default{
+  background-color: #3a3a3d;
+  color: #ffffff;
+  border-color:#3a3a3d;
+}
+
+input:focus{
+  background-color: #000000;
+  border-color:#a372ec;
+}
+
+.well{
+  background-color:#1f1f23;
+  border-color: #1f1f23;
+}
+
+.btn.btn-outline-primary.me-2{
+  background-color: #3a3a3d;
+  color: #ffffff;
+  border-color:#3a3a3d;
+}
+.container{
+  background-color: #0e0e10;
+}
+
+body {
+  background-color: #0e0e10;
+}
+
+.shop-thumb__title{
+  color: #ffffff;
+}

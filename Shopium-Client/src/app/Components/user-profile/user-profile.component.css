@@ -178,7 +178,7 @@ body {
 }
 
 .table-products .warranty>i {
-    color: #f1c40f;
+    color: #f10f0f;
 }
 
 .table tbody>tr.table-line-fb>td {
@@ -212,3 +212,34 @@ body {
 .table-stats .table-line-plus .status-social-icon {
     color: #a75d54;
 }
+
+thead{
+    color: #fff;
+}
+
+table{
+    background-color: #18181b;
+}
+
+.userItems{
+    background-color: #18181b !important;
+}
+
+h3{
+    color: #fff;
+}
+
+tr, td{
+    background-color: #18181b !important;
+}
+
+.form-control{
+    background-color: #3a3a3d;
+    border: #3a3a3d;
+    color: #FFFFFF;
+}
+
+.form-control:focus{
+    background-color: #000000;
+    border-color:#a372ec;
+  }

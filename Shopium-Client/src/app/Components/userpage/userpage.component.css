@@ -19,9 +19,10 @@ body {
 }
 
 .profile-nav .user-heading {
-    background: #fbc02d;
+    background: #bf94ff;
     color: #fff;
     border-radius: 4px 4px 0 0;
+    border: #3a3a3d;
     -webkit-border-radius: 4px 4px 0 0;
     padding: 30px;
     text-align: center;
@@ -69,14 +70,14 @@ body {
     border-radius: 0;
     -webkit-border-radius: 0;
     color: #89817f;
-    border-left: 5px solid #fff;
+    border-left: 5px solid #772ce8;
 }
 
 .profile-nav ul>li>a:hover,
 .profile-nav ul>li>a:focus,
 .profile-nav ul li.active a {
-    background: #f8f7f5 !important;
-    border-left: 5px solid #fbc02d;
+    background: #3a3a3d !important;
+    border-left: 5px solid #772ce8;
     color: #89817f !important;
 }
 
@@ -88,7 +89,7 @@ body {
 .profile-nav ul>li>a>i {
     font-size: 16px;
     padding-right: 10px;
-    color: #bcb3aa;
+    color: #ffffff;
 }
 
 .r-activity {
@@ -388,4 +389,32 @@ ul.summary-list>li:last-child {
 
 .activity-desk .album a:last-child {
     margin-right: 0px;
+}
+
+.panel{
+    border: #772ce8;
+}
+
+li{
+    background-color: #3a3a3d;
+}
+
+.active{
+    background-color: #3a3a3d;
+}
+
+a{
+    background-color: #3a3a3d;
+}
+
+.label.label-warning.pull-right.r-activity{
+    background-color: #772ce8;
+}
+
+h2{
+    color: #fff;
+}
+
+.shop-thumb__title{
+    color: #fff;
 }
