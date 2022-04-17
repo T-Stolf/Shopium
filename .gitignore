@@ -33,4 +33,3 @@ build/
 .vscode/
 derby.log
 mydb/db.lck
-mydb/seg0/c4b0.dat
