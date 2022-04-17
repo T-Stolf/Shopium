@@ -10,7 +10,6 @@ import javax.persistence.Id;
 public class Item {
 
 	private @Id @GeneratedValue Long ItemID;
-
 	private Long userID;
 	private String itemName;
 	private String Photo;
@@ -24,7 +23,6 @@ public class Item {
 	public Item(Long userID, String iName, String photo, String description, int price,
 			int stock) {
 		super();
-
 		this.userID = userID;
 		itemName = iName;
 		Photo = photo;

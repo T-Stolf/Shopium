@@ -27,36 +27,21 @@
                 <h3 class="headline">
                     <span>Price</span>
                 </h3>
-                <div class="radio">
-                    <input type="radio" name="shop-filter__price" id="shop-filter-price_1" value="" checked="">
-                    <label for="shop-filter-price_1">Under $25</label>
-                </div>
-                <div class="radio">
-                    <input type="radio" name="shop-filter__price" id="shop-filter-price_2" value="">
-                    <label for="shop-filter-price_2">$25 to $50</label>
-                </div>
-                <div class="radio">
-                    <input type="radio" name="shop-filter__price" id="shop-filter-price_3" value="">
-                    <label for="shop-filter-price_3">$50 to $100</label>
-                </div>
-                <div class="radio">
-                    <input type="radio" name="shop-filter__price" id="shop-filter-price_4" value="specify">
-                    <label for="shop-filter-price_4">Other (specify)</label>
-                </div>
                 <div class="form-group shop-filter__price">
                     <div class="row">
                         <div class="col-xs-4">
                             <label for="shop-filter-price_from" class="sr-only"></label>
                             <input id="shop-filter-price_from" type="number" min="0" class="form-control"
-                                placeholder="From" disabled="">
+                                placeholder="From" [(ngModel)]="from" name="from">
                         </div>
                         <div class="col-xs-4">
                             <label for="shop-filter-price_to" class="sr-only"></label>
                             <input id="shop-filter-price_to" type="number" min="0" class="form-control" placeholder="To"
-                                disabled="">
+                                [(ngModel)]="to" name="to">
                         </div>
                         <div class="col-xs-4">
-                            <button type="submit" class="btn btn-block btn-default" disabled="">Go</button>
+                            <button type="submit" class="btn btn-block btn-default"
+                                (click)="getPriceItems()">Go</button>
                         </div>
                     </div>
                 </div>

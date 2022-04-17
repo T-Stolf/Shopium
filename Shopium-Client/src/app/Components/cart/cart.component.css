@@ -19,3 +19,85 @@ table tr th {
 .panel-shadow {
     box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
 }
+
+.breadcrumb{
+    background-color: #0e0e10;
+}
+
+a{
+    color: #bf94ff;
+}
+
+.active{
+    color:#FFFFFF;
+}
+
+.btn.btn-success{
+    background-color: #772ce8;
+    border-color: #772ce8;
+    color: #FFFFFF;
+}
+
+.btn.btn-success:hover{
+    background-color: #bf94ff;
+    border-color: #bf94ff;
+    color: #FFFFFF;
+}
+
+.btn.btn-primary.pull-right{
+    background-color: #3a3a3d;
+    border-color: #3a3a3d;
+    color: #FFFFFF;
+}
+
+.btn.btn-primary.pull-right:hover{
+    background-color: #772ce8;
+    border-color: #772ce8;
+    color: #FFFFFF;
+}
+
+.panel-heading{
+    background-color: #18181b;
+    border-color: #18181b;
+}
+
+.panel-info{
+    background-color: #3a3a3d;
+    border-color:#18181b
+}
+
+table{
+    background-color: #18181b;
+    color: #ffffff;
+}
+
+th{
+    background-color: #0e0e10 !important;
+    color:#ffffff;
+}
+tbody{
+    border: #3a3a3d;
+}
+
+.form-control{
+    background-color: #3a3a3d;
+    border: #3a3a3d;
+    color: #FFFFFF;
+}
+
+.form-control:focus{
+    background-color: #000000;
+    border-color:#a372ec;
+  }
+
+.btn.btn-default{
+    background-color: #a372ec;
+    border-color:#a372ec;
+    color: #FFFFFF;
+}
+
+.btn.btn-primary{
+    background-color: #3a3a3d;
+    border-color: #3a3a3d;
+    color: #FFFFFF;
+}

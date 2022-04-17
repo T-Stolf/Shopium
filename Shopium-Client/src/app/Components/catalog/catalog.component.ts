@@ -15,11 +15,11 @@ export class CatalogComponent implements OnInit {
   title = 'Shopium-Client';
   public items: Item[] = []; // list of items displayed on the catalog
   public itemID: number = 0;
-
-
   public temp: string = "";
 
   @Input() searchQuery: string = "";
+  @Input() from: number = 0;
+  @Input() to: number = 0;
 
   constructor(private itemService: ItemService,
     private aroute: ActivatedRoute,
@@ -69,6 +69,24 @@ export class CatalogComponent implements OnInit {
     }
     console.log(this.searchQuery);
     this.itemService.getSearchItems(this.searchQuery).subscribe(response => {
+      console.log(response);
+      for (const item of response?.body._embedded.itemList) {
+        this.items.push(item);
+      }
+    });
+  }
+
+  //-------------------------------------------------------------------------------------
+  // GET ALL BASED ON PRICE
+  public getPriceItems(): void {
+    this.items = []; // clear out
+    if (this.from == 0 && this.to == 0 && this.to < this.from) { // if search parameter is empty, get all items
+
+      return;
+    }
+
+    console.log(this.searchQuery);
+    this.itemService.getPriceItems(this.from, this.to).subscribe(response => {
       console.log(response);
       for (const item of response?.body._embedded.itemList) {
         this.items.push(item);
