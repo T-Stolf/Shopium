@@ -65,6 +65,7 @@ export class CatalogComponent implements OnInit {
   // GET ALL BASED ON PRICE
   public getPriceItems(): void {
     this.items = []; // clear out
+<<<<<<< HEAD
     if (this.from == 0 && this.to == 0 && this.to < this.from) { // if search parameter is empty, get all items
 
       return;
@@ -72,6 +73,15 @@ export class CatalogComponent implements OnInit {
 
     console.log(this.searchQuery);
     this.itemService.getPriceItems(this.from, this.to).subscribe(response => {
+=======
+    if (this.from == 0 && this.to == 0 && this.to<this.from) { // if search parameter is empty, get all items
+      
+      return;
+    }
+
+    console.log(this.searchQuery);
+    this.itemService.getPriceItems(this.from,this.to).subscribe(response => {
+>>>>>>> branch 'QuresheyBranch' of https://github.com/T-Stolf/Shopium
       console.log(response);
       for (const item of response?.body._embedded.itemList) {
         this.items.push(item);

@@ -33,11 +33,14 @@ export class ItemService {
         return this.http.get<any>(`${this.apiServerUrl}/${this.getSearchItemsUrl}/${from}-${to}`, { observe: 'response' });
     }
 
+<<<<<<< HEAD
     // GET ALL UserID FILTERED
     public getUserItems(keyword: number): Observable<HttpResponse<any>> {
         return this.http.get<any>(`${this.apiServerUrl}/items/user/${keyword}`, { observe: 'response' });
     }
 
+=======
+>>>>>>> branch 'QuresheyBranch' of https://github.com/T-Stolf/Shopium
     // GET ONE 
     public getItem(iid: number): Observable<HttpResponse<any>> {
         return this.http.get<HttpResponse<any>>(`${this.apiServerUrl}/${this.entityUrl}/${iid}`);
