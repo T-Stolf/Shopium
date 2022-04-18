@@ -38,150 +38,145 @@ public class UserAccountController {
 
 	private final UserAccountRepository repo;
 	private UserAccountModelAssembler assembler;
-	
+
 	private UserAuthentication UAuth;
 
 	@Autowired
 	private Publisher Pub;
-	
-	public UserAccountController(UserAccountRepository repository, UserAccountModelAssembler ass)
-	{
+
+	public UserAccountController(UserAccountRepository repository, UserAccountModelAssembler ass) {
 		this.repo = repository;
 		this.assembler = ass;
-		
+
 	}
-	//create user account	
+
+	// create user account
 	@PostMapping("/Account/Register")
 	public ResponseEntity<?> newUser(@RequestBody UserAccount newUser) throws Exception {
-	
+
+		System.out.println("hello");
+
 		Pub.Event("/Account/Register");
-		
-		
-		
-		if(newUser == null)
-		{
+
+		if (newUser == null) {
 			throw new Exception("Cannot create null user");
 		}
-		
+
 		BCryptPasswordEncoder BCPT = new BCryptPasswordEncoder();
 		newUser.setDateTimeRegister(LocalDateTime.now());
 		newUser.setRole("User");
 		newUser.setPassword(BCPT.encode(newUser.getPassword()));
-		
-		List<UserAccount> users = repo.findAll();
-		
-		 for (UserAccount user : users) {
-	            if (user.equals(newUser)) {
-	                throw new Exception("User Already exists!");
-	            }
-	            if(user.getUserName().equals(newUser.getUserName())) {
-	                throw new Exception("User Already exists!");
-	            }
-	        }
 
-		 
-	    EntityModel<UserAccount> entityModel = assembler.toModel(repo.save(newUser));
-	
-	    return ResponseEntity 
-	            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) 
-	            .body(entityModel);
+		List<UserAccount> users = repo.findAll();
+
+		for (UserAccount user : users) {
+			if (user.equals(newUser)) {
+				throw new Exception("User Already exists!");
+			}
+			if (user.getUserName().equals(newUser.getUserName())) {
+				throw new Exception("User Already exists!");
+			}
+		}
+
+		EntityModel<UserAccount> entityModel = assembler.toModel(repo.save(newUser));
+
+		return ResponseEntity
+				.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+				.body(entityModel);
 	}
-	
-	//user account access
+
+	// user account access
 	@GetMapping("/myAccount")
 	public EntityModel<UserAccount> getMyself() {
-		
+
 		Pub.Event("/myAccount");
-		
+
 		this.UAuth = UserAuthentication.getInstance();
 		UserAccount userAccount = repo.findByUserName(UAuth.getUsername());
-		
-		
-		
-		return assembler.toModel(userAccount);   
+
+		return assembler.toModel(userAccount);
 	}
-	
-	
+
 	@PutMapping("/myAccount")
 	public ResponseEntity<?> replaceMyself(@RequestBody UserAccount newUser) {
 
 		Pub.Event("/myAccount");
 		BCryptPasswordEncoder BCPT = new BCryptPasswordEncoder();
 		this.UAuth = UserAuthentication.getInstance();
-		
+
 		String username = UAuth.getUsername();
 		UserAccount userAccount = repo.findByUserName(username);
-		
-			userAccount.setAddress(newUser.getAddress() != null ? newUser.getAddress() : userAccount.getAddress());	
-		    userAccount.setDateTimeRegister(newUser.getDateTimeRegister() != null ? newUser.getDateTimeRegister() : userAccount.getDateTimeRegister());
-		    userAccount.setFullName(newUser.getFullName() != null ? newUser.getFullName() : userAccount.getFullName());
-		    userAccount.setUserName(newUser.getUserName() != null ? newUser.getUserName() : userAccount.getUserName());
-		    userAccount.setPassword(newUser.getPassword() != null ? BCPT.encode(newUser.getPassword()) : userAccount.getPassword());
-	
+
+		userAccount.setAddress(newUser.getAddress() != null ? newUser.getAddress() : userAccount.getAddress());
+		userAccount.setDateTimeRegister(newUser.getDateTimeRegister() != null ? newUser.getDateTimeRegister()
+				: userAccount.getDateTimeRegister());
+		userAccount.setFullName(newUser.getFullName() != null ? newUser.getFullName() : userAccount.getFullName());
+		userAccount.setUserName(newUser.getUserName() != null ? newUser.getUserName() : userAccount.getUserName());
+		userAccount.setPassword(
+				newUser.getPassword() != null ? BCPT.encode(newUser.getPassword()) : userAccount.getPassword());
+
 		EntityModel<UserAccount> entityModel = assembler.toModel(userAccount);
-	    return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
-	    
+		return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+
 	}
-	
-	//admin account access
+
+	// admin account access
 	@GetMapping("/admin/userAccounts")
-	public CollectionModel<EntityModel<UserAccount>> all()
-	{
-		
+	public CollectionModel<EntityModel<UserAccount>> all() {
+
 		List<EntityModel<UserAccount>> userAccounts = repo.findAll()
-	            .stream()
-	            .map(assembler::toModel)
-	            .collect(Collectors.toList());
-		
-		   return CollectionModel.of(userAccounts, linkTo(methodOn(UserAccountController.class).all()).withSelfRel());
+				.stream()
+				.map(assembler::toModel)
+				.collect(Collectors.toList());
+
+		return CollectionModel.of(userAccounts, linkTo(methodOn(UserAccountController.class).all()).withSelfRel());
 	}
-	
+
 	@PostMapping("/admin/userAccounts")
 	public ResponseEntity<?> newUserAdmin(@RequestBody UserAccount newUser) {
-	
-	    EntityModel<UserAccount> entityModel = assembler.toModel(repo.save(newUser));
-	
-	    return ResponseEntity 
-	            .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) 
-	            .body(entityModel);
+
+		EntityModel<UserAccount> entityModel = assembler.toModel(repo.save(newUser));
+
+		return ResponseEntity
+				.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+				.body(entityModel);
 	}
-	
+
 	// Single item
 	@GetMapping("/admin/userAccounts/{id}")
 	public EntityModel<UserAccount> one(@PathVariable Long id) {
-	
-	    UserAccount userAccount = repo.findById(id) //
-	            .orElseThrow(() -> new UserAccountNotFoundException(id));
-	
-	    return assembler.toModel(userAccount);
+
+		UserAccount userAccount = repo.findById(id) //
+				.orElseThrow(() -> new UserAccountNotFoundException(id));
+
+		return assembler.toModel(userAccount);
 	}
-	
+
 	@PutMapping("/admin/userAccounts/{id}")
 	public ResponseEntity<?> replaceUser(@RequestBody UserAccount newUser, @PathVariable Long id) {
-	
-	    UserAccount updatedUser = repo.findById(id)
-	            .map(user -> {
-	            	user.setAddress(newUser.getAddress());
-	            	user.setDateTimeRegister(newUser.getDateTimeRegister());
-	            	user.setFullName(newUser.getFullName());
-	            	user.setUserName(newUser.getUserName());
-	                return repo.save(user);
-	            })
-	            .orElseGet(() -> {
-	                newUser.setUserID(id);
-	                return repo.save(newUser);
-	            });
-	    
-	    EntityModel<UserAccount> entityModel = assembler.toModel(updatedUser);
-	    return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
-	    
+
+		UserAccount updatedUser = repo.findById(id)
+				.map(user -> {
+					user.setAddress(newUser.getAddress());
+					user.setDateTimeRegister(newUser.getDateTimeRegister());
+					user.setFullName(newUser.getFullName());
+					user.setUserName(newUser.getUserName());
+					return repo.save(user);
+				})
+				.orElseGet(() -> {
+					newUser.setUserID(id);
+					return repo.save(newUser);
+				});
+
+		EntityModel<UserAccount> entityModel = assembler.toModel(updatedUser);
+		return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+
 	}
-	
+
 	@DeleteMapping("/admin/userAccounts/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-	    repo.deleteById(id);
-	    return ResponseEntity.noContent().build();
+		repo.deleteById(id);
+		return ResponseEntity.noContent().build();
 	}
 
 }
-
