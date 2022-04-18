@@ -44,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	public void configure(WebSecurity web) throws Exception
 	{
-		web.ignoring().antMatchers("/resources/**");
+		web.ignoring().antMatchers("/resources/**");//.and().ignoring().antMatchers("/Account*");
 	}
 	
 	//enables http security
@@ -54,13 +54,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http
 //		.csrf().disable()
-		.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+		.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and() 
+		.csrf().ignoringAntMatchers("/Account/Register").and()
+		.requestMatchers().antMatchers("/admin/**", "/my**").and()
 		.authorizeRequests()
 		.antMatchers("/admin/**").hasAuthority("Admin")
 		.antMatchers("/my**").hasAnyAuthority("Admin", "User")
-		.antMatchers("/Account*").anonymous()
+		.antMatchers("/Account/Register").permitAll()
 		.antMatchers("/login*").anonymous()
-		.antMatchers("/index*").anonymous()
 		.antMatchers("/").anonymous()
 //		.anyRequest().authenticated()
 		
