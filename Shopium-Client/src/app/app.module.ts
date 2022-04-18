@@ -13,6 +13,7 @@ import { TokenIntercepterService } from './token-intercepter.service';
 import { UserpageComponent } from './Components/userpage/userpage.component';
 import { UserProfileComponent } from './Components/user-profile/user-profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RegisterComponent } from './Components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CartComponent,
     UserpageComponent,
     UserProfileComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

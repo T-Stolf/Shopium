@@ -7,6 +7,7 @@ import { CatalogItemComponent } from './Components/catalog-item/catalog-item.com
 import { CartComponent } from './Components/cart/cart.component';
 import { UserpageComponent } from './Components/userpage/userpage.component';
 import { UserProfileComponent } from './Components/user-profile/user-profile.component';
+import { RegisterComponent } from './Components/register/register.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/catalog', pathMatch: 'full' },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'userpage', component: UserpageComponent },
   { path: 'userprofile', component: UserProfileComponent },
+  { path: 'register', component: RegisterComponent },
 ];
 
 @NgModule({
