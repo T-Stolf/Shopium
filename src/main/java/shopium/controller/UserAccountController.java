@@ -44,8 +44,9 @@ public class UserAccountController {
 	@Autowired
 	private Publisher Pub;
 	
-	public UserAccountController(UserAccountRepository repository, UserAccountModelAssembler ass)
+	public UserAccountController(UserAccountRepository repository, UserAccountModelAssembler ass, UserAuthentication uauth)
 	{
+		this.UAuth = uauth;
 		this.repo = repository;
 		this.assembler = ass;
 		
@@ -55,8 +56,6 @@ public class UserAccountController {
 	public ResponseEntity<?> newUser(@RequestBody UserAccount newUser) throws Exception {
 	
 		Pub.Event("/Account/Register");
-		
-		
 		
 		if(newUser == null)
 		{
@@ -93,7 +92,6 @@ public class UserAccountController {
 		
 		Pub.Event("/myAccount");
 		
-		this.UAuth = UserAuthentication.getInstance();
 		UserAccount userAccount = repo.findByUserName(UAuth.getUsername());
 		
 		
@@ -107,7 +105,6 @@ public class UserAccountController {
 
 		Pub.Event("/myAccount");
 		BCryptPasswordEncoder BCPT = new BCryptPasswordEncoder();
-		this.UAuth = UserAuthentication.getInstance();
 		
 		String username = UAuth.getUsername();
 		UserAccount userAccount = repo.findByUserName(username);

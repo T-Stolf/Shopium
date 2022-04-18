@@ -39,8 +39,9 @@ public class ItemController {
 	@Autowired
 	private Publisher Pub;
 	
-	public ItemController(ItemRepository repository, ItemModelAssembler ass)
+	public ItemController(ItemRepository repository, ItemModelAssembler ass, UserAuthentication uauth)
 	{
+		this.UAuth = uauth;
 		this.repo = repository;
 		this.assembler = ass;
 
@@ -142,8 +143,6 @@ public class ItemController {
 	{
 		
 		Pub.Event("/myItems");
-		
-		this.UAuth = UserAuthentication.getInstance();
 
 		Long userID = UAuth.getID();
 		
@@ -162,8 +161,6 @@ public class ItemController {
     public ResponseEntity<?> myNewItem(@RequestBody Item newItem) {
 
 		Pub.Event("/myItems");
-		
-		this.UAuth = UserAuthentication.getInstance();
     	
 		Long userID = UAuth.getID();
 		newItem.setUserID(userID);
@@ -181,8 +178,6 @@ public class ItemController {
 
     	Pub.Event("/myItems");
     	
-    	this.UAuth = UserAuthentication.getInstance();
-    	
 		Long userID = UAuth.getID();
     	
         Item item = repo.findById(id) //
@@ -199,8 +194,6 @@ public class ItemController {
     public ResponseEntity<?> replaceMyItem(@RequestBody Item newItem, @PathVariable Long id) {
 
     	Pub.Event("/myItems");
-    	
-    	this.UAuth = UserAuthentication.getInstance();
     	
 		Long userID = UAuth.getID();
 		
@@ -226,8 +219,6 @@ public class ItemController {
     public ResponseEntity<?> deleteMyItem(@PathVariable Long id) {
     	
     	Pub.Event("/myItems");
-    	
-    	this.UAuth = UserAuthentication.getInstance();
     	
 		Long userID = UAuth.getID();
     	

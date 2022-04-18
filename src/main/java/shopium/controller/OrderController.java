@@ -45,8 +45,9 @@ public class OrderController {
 	private Publisher Pub;
 	
 	
-	public OrderController(OrderRepository repository, OrderModelAssembler ass)
+	public OrderController(OrderRepository repository, OrderModelAssembler ass, UserAuthentication uauth)
 	{
+		this.UAuth = uauth;
 		this.repo = repository;
 		this.assembler = ass;
 		
@@ -58,8 +59,6 @@ public class OrderController {
 	{
 		
 		Pub.Event("/myOrders");
-		
-		this.UAuth = UserAuthentication.getInstance();
 		
 		Long userID = UAuth.getID();
 		
@@ -79,9 +78,7 @@ public class OrderController {
     public EntityModel<Order_> myOrder( @PathVariable Long oid) {
     	
     	Pub.Event("/myOrders");
-    	
-    	this.UAuth = UserAuthentication.getInstance();
-    	
+
 		Long userID = UAuth.getID();
 		
         Order_ order_ = repo.findById(oid) //
@@ -98,8 +95,6 @@ public class OrderController {
     public ResponseEntity<?> myNewOrder(@RequestBody Order_ order) {
 		
 		Pub.Event("/myOrders");
-		
-		this.UAuth = UserAuthentication.getInstance();
 		
 		Long userID = UAuth.getID();
 		
@@ -126,8 +121,6 @@ public class OrderController {
     public ResponseEntity<?> completeMyOrder(@PathVariable Long id) {
 
     	Pub.Event("/myOrders/X/complete");
-    	
-    	this.UAuth = UserAuthentication.getInstance();
     	
 		Long userID = UAuth.getID();
     	
@@ -158,8 +151,6 @@ public class OrderController {
     public ResponseEntity<?> cancelMyOrder(@PathVariable Long id) {
     	
     	Pub.Event("/myOrders/X/cancel");
-    	
-    	this.UAuth = UserAuthentication.getInstance();
     	
 		Long userID = UAuth.getID();
     	

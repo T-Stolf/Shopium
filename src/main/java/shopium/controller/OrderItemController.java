@@ -40,8 +40,9 @@ public class OrderItemController {
 	
 	private UserAuthentication UAuth; 
 
-	public OrderItemController(OrderItemRepository repository, OrderItemModelAssembler ass, OrderRepository orep)
+	public OrderItemController(OrderItemRepository repository, OrderItemModelAssembler ass, OrderRepository orep, UserAuthentication uauth)
 	{
+		this.UAuth = uauth;
 		this.repo = repository;
 		this.assembler = ass;
 		this.Orepo = orep;
@@ -56,8 +57,6 @@ public class OrderItemController {
 	{
 		
 		Pub.Event("/myOrderItems");
-		
-		this.UAuth = UserAuthentication.getInstance();
 		
 		Long userID = UAuth.getID();
 		
@@ -87,8 +86,6 @@ public class OrderItemController {
 	
 		Pub.Event("/myOrderItems");
 		
-		this.UAuth = UserAuthentication.getInstance();
-		
 		Long userID = UAuth.getID();
 		
 		
@@ -109,8 +106,6 @@ public class OrderItemController {
 	public ResponseEntity<?> deleteItemFromOrder(@PathVariable Long orderItemID) {
 	    
 		Pub.Event("/myOrderItems");
-		
-		this.UAuth = UserAuthentication.getInstance();
 		
 		Long userID = UAuth.getID();
 		
