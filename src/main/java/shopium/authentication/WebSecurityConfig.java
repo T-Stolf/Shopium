@@ -1,5 +1,7 @@
 package shopium.authentication;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +13,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 //extends basic security
 @Configuration
@@ -33,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		return authProvider;
 	}
+	
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception
@@ -53,8 +61,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 		
 		http
+		.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
 //		.csrf().disable()
-		.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+		.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()		
 		.authorizeRequests()
 		.antMatchers("/admin/**").hasAuthority("Admin")
 		.antMatchers("/my**").hasAnyAuthority("Admin", "User")
