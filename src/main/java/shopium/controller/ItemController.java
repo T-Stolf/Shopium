@@ -62,7 +62,7 @@ public class ItemController {
 	}
 
 	// GET ALL - based on a search filter
-	@GetMapping("/items/search/{query}")
+	@GetMapping("/items/searchQ/{query}")
 	public CollectionModel<EntityModel<Item>> filteredByQuery(@PathVariable String query)
 	{
 		
@@ -92,7 +92,7 @@ public class ItemController {
 	}
 	
 	//Get items based on given userID
-	@GetMapping("/items/search/{userID}")
+	@GetMapping("/items/searchU/{userID}")
 		public CollectionModel<EntityModel<Item>> getUserID(@PathVariable Long userID)
 		{
 			List<Item> creatorItem = repo.findAll();
