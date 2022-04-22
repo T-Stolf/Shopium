@@ -13,7 +13,7 @@ public class UserAuthentication {
 	
 	private static UserAuthentication UAuth;
 	
-	private UserAuthentication() throws Exception {
+	public UserAuthentication() throws Exception {
 		try {
 		this.principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -32,40 +32,60 @@ public class UserAuthentication {
 
 	}
 	
-	public static UserAuthentication getInstance()
-	{
-		if(UAuth == null)
-		{
-			try {
-				UAuth = new UserAuthentication();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return UAuth;
-	}
+//	public static UserAuthentication getInstance()
+//	{
+//		if(UAuth == null)
+//		{
+//			try {
+//				UAuth = new UserAuthentication();
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		return UAuth;
+//	}
 	
 
 	public Long getID()
 	{
-		this.principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof CustomUserDetails) {
-				ID = ((CustomUserDetails)principal).getUserID();
-			} else {
+		try {
+			this.principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+			if (principal instanceof CustomUserDetails) {
+				 username = ((CustomUserDetails)principal).getUsername();
+				 ID = ((CustomUserDetails)principal).getUserID();
+				} else {
+				 username = principal.toString();
+			
+				}
+			}
+			catch(Exception e)
+			{
 				ID = null;
 			}
+
 		return ID;
 	}
 	
 	public String getUsername()
 	{
-		this.principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal instanceof CustomUserDetails) {
-			 username = ((CustomUserDetails)principal).getUsername();
-			} else {
-			 username = principal.toString();
+		try {
+			this.principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+			if (principal instanceof CustomUserDetails) {
+				 username = ((CustomUserDetails)principal).getUsername();
+				 ID = ((CustomUserDetails)principal).getUserID();
+				} else {
+				 username = principal.toString();
+				 ID = null;
+				}
 			}
+			catch(Exception e)
+			{
+				throw new UserAccountNotFoundException(username + " err");
+			}
+
 		return username;
 	}
 	

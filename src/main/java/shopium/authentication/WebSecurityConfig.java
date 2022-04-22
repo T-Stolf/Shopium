@@ -61,13 +61,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 		
 		http
-		.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
-//		.csrf().disable()
-		.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()		
+//		.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
+		.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
+		.requestMatchers().antMatchers("/admin/**", "/my**").and()
 		.authorizeRequests()
 		.antMatchers("/admin/**").hasAuthority("Admin")
 		.antMatchers("/my**").hasAnyAuthority("Admin", "User")
-		.antMatchers("/Account*").anonymous()
+		.antMatchers("/Account*").permitAll()
 		.antMatchers("/login*").anonymous()
 		.antMatchers("/index*").anonymous()
 		.antMatchers("/").anonymous()
